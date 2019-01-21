@@ -32,6 +32,7 @@ void wheel_init(void)
 void set_speed(uint8_t wheel, int16_t speed, int time)
 {
     Adafruit_DCMotor* motor;
+    time = 0;
 
     if(wheel & WHEEL_NW)
         motor = nw;
@@ -51,6 +52,9 @@ void set_speed(uint8_t wheel, int16_t speed, int time)
     {
         motor->run(FORWARD);
     }
+    if(speed > 255)
+        speed = 255;
+    
     if(time == 0 || speed == 0) //no ramp down
     {
         motor->setSpeed(speed);
@@ -58,11 +62,11 @@ void set_speed(uint8_t wheel, int16_t speed, int time)
             motor->run(RELEASE);
         return;
     }
-    for (int i=0; i<speed; i++) 
-    {
-        motor->setSpeed(i);  
-        delay(time/speed);
-    }
+    // for (int i=0; i<speed; i++) 
+    // {
+    //     motor->setSpeed(i);  
+    //     delay(time/speed);
+    // }
     if (speed == 0)
             motor->run(RELEASE);
 }

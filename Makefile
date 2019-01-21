@@ -2,9 +2,11 @@
 
 all: ino inomake test
 
-test: gcctest/drive.o gcctest/fakewheel.o gcctest/gcctest.o gcctest/cpTime.o
+test: gcctest/gcctest
+	cp gcctest/gcctest test
+
+gcctest/gcctest: gcctest/drive.o gcctest/fakewheel.o gcctest/gcctest.o gcctest/cpTime.o
 	g++ gcctest/drive.o gcctest/fakewheel.o gcctest/gcctest.o gcctest/cpTime.o -lm -o gcctest/gcctest
-	./gcctest/gcctest
 
 gcctest/gcctest.o: gcctest/gcctest.cpp
 	g++ -c gcctest/gcctest.cpp -o gcctest/gcctest.o

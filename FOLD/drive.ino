@@ -11,8 +11,10 @@ void go(drive_vector_t vec)
     int16_t speed_ne;
     int16_t speed_sw;
     int16_t speed_se;
+    int16_t speed_max;
     float angle;
     float speed_default;
+    float scale;
 
     angle = vec.degrees;
     angle *= 3.1415926f;
@@ -29,6 +31,21 @@ void go(drive_vector_t vec)
     speed_ne += speed_default * -cos(angle);
     speed_sw += speed_default * cos(angle);
     speed_se += speed_default * -cos(angle);
+
+    speed_max = speed_nw;
+    if(speed_ne > speed_max)
+        speed_max = speed_ne;
+    if(speed_sw > speed_max)
+        speed_max = speed_sw;
+    if(speed_se > speed_max)
+        speed_max = speed_se;
+
+    scale = speed_default/speed_max;
+
+    speed_nw *= scale;
+    speed_ne *= scale;
+    speed_sw *= scale;
+    speed_se *= scale;
 
     set_speed(WHEEL_NW, OFFSET_NW * speed_nw, 0);
     set_speed(WHEEL_NE, OFFSET_NE * speed_ne, 0);

@@ -1,6 +1,6 @@
 #include "fakewheel.h"
 
-uint8_t wheel_speeds[4];
+int16_t wheel_speeds[4];
 
 void wheel_init(void)
 {
@@ -14,7 +14,7 @@ void wheel_init(void)
 
 void print_wheels(void)
 {
-	printf("NW=%3d NE=%3d SW=%3d SE=%d\n",
+	printf("NW=%4d NE=%4d SW=%4d SE=%4d\n",
 		wheel_speeds[0],
 		wheel_speeds[1],
 		wheel_speeds[2],

@@ -1,0 +1,4 @@
+*.o
+drive.*
+gcctest
+wiring.h
