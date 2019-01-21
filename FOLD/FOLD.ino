@@ -9,17 +9,45 @@ void setup()
 void loop()
 {
 	int degrees;
+	double cm;
 	drive_vector_t vec;
 
-	vec.speed = 255;
+	vec.degrees = 180;
 
-	for(degrees = 0; degrees < 360; degrees++)
-	{
-		vec.degrees = degrees;
+	while(1)
+	{	
+		cm = echo_test_mm();
+		cm -= 600;
+		cm *= 10;
+		if(cm < 0)
+		{
+			cm *= -1;
+			vec.degrees = 0;
+		}
+		else
+		{
+			vec.degrees = 180;
+		}
+		if(cm > 255)
+			cm = 255;
+		if (cm < 20)
+			cm = 0;
+
+		vec.speed = cm;
 		go(vec);
-		delay(30);
+		delay(5);
 	}
 
-	echo_loop();
+	//300 --> 30cm
+	//800 --> 87cm
+	//500 --> 56cm
+	//200 --> 20cm
+	//150 --> 15cm
+	//450 --> 50cm
+	//350 --> 40cm
+	//100 --> 11cm
+	//75 --> 7.5cm
+	//250 --> 27cm
+	//600 --> 64cm
 }
 

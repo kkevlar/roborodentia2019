@@ -5,7 +5,7 @@
 #include "wiring.h"
 
 void echo_init();
-void echo_loop();
+double echo_test_mm();
 
 #endif
 
