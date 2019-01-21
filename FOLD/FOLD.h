@@ -4,6 +4,7 @@
 
 #include <Arduino.h>
 #include "drive.h"
+#include "echo.h"
 
 void setup();
 void loop();

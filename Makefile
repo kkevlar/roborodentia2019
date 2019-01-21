@@ -56,13 +56,19 @@ ino/wheel.h: FOLD/wheel.h | ino
 ino/wheel.cpp: FOLD/wheel.ino | ino
 	cp FOLD/wheel.ino ino/wheel.cpp
 
+ino/echo.h: FOLD/echo.h | ino
+	cp FOLD/echo.h ino/echo.h
+
+ino/echo.cpp: FOLD/echo.ino | ino
+	cp FOLD/echo.ino ino/echo.cpp
+
 ino/wiring.h: FOLD/wiring.h | ino
 	cp FOLD/wiring.h ino/wiring.h
 
 /usr/share/arduino/libraries/Adafruit_MotorShield: 
 	git clone git@github.com:adafruit/Adafruit_Motor_Shield_V2_Library.git /usr/share/arduino/libraries/Adafruit_MotorShield
 
-inomake: ino/Makefile ino/FOLD.cpp ino/FOLD.h ino/drive.cpp ino/drive.h ino/wiring.h ino/wheel.h ino/wheel.cpp | ino ino/Arduino-Makefile /usr/share/arduino/libraries/Adafruit_MotorShield
+inomake: ino/Makefile ino/FOLD.cpp ino/FOLD.h ino/drive.cpp ino/drive.h ino/wiring.h ino/wheel.h ino/wheel.cpp ino/echo.h ino/echo.cpp | ino ino/Arduino-Makefile /usr/share/arduino/libraries/Adafruit_MotorShield
 	cd ino && make
 
 upload: inomake

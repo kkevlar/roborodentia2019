@@ -10,6 +10,9 @@
 #define BOT_PORT_SW 2
 #define BOT_PORT_SE 3
 
+#define PIN_ULTRASONIC_TRIG 10
+#define PIN_ULTRASONIC_ECHO 11
+
 #define OFFSET_NW -1
 #define OFFSET_NE 1
 #define OFFSET_SW 1

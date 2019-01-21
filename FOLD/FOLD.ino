@@ -3,6 +3,7 @@
 void setup()
 {
 	drive_init();
+	echo_init();
 }
 
 void loop()
@@ -18,5 +19,7 @@ void loop()
 		go(vec);
 		delay(30);
 	}
+
+	echo_loop();
 }
 
