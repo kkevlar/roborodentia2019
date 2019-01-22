@@ -17,7 +17,7 @@ void loop()
 	{
 		vec.degrees = degrees;
 		go(vec);
-		delay(30);
+		delay(1);
 	}
 
 	echo_loop();
