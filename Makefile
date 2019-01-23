@@ -1,4 +1,20 @@
 
+INOMAKE_NORMAL_DEPS=ino/Makefile \
+ino/FOLD.cpp \
+ino/FOLD.h \
+ino/drive.cpp \
+ino/drive.h \
+ino/wiring.h \
+ino/wheel.h \
+ino/wheel.cpp \
+ino/echo.h \
+ino/echo.cpp \
+ino/switch.cpp \
+ino/switch.h 
+
+INOMAKE_SPECIAL_DEPS=ino \
+ino/Arduino-Makefile \
+/usr/share/arduino/libraries/Adafruit_MotorShield
 
 all: ino inomake test
 
@@ -62,13 +78,19 @@ ino/echo.h: FOLD/echo.h | ino
 ino/echo.cpp: FOLD/echo.ino | ino
 	cp FOLD/echo.ino ino/echo.cpp
 
+ino/switch.h: FOLD/switch.h | ino
+	cp FOLD/switch.h ino/switch.h
+
+ino/switch.cpp: FOLD/switch.ino | ino
+	cp FOLD/switch.ino ino/switch.cpp
+
 ino/wiring.h: FOLD/wiring.h | ino
 	cp FOLD/wiring.h ino/wiring.h
 
 /usr/share/arduino/libraries/Adafruit_MotorShield: 
 	git clone git@github.com:adafruit/Adafruit_Motor_Shield_V2_Library.git /usr/share/arduino/libraries/Adafruit_MotorShield
 
-inomake: ino/Makefile ino/FOLD.cpp ino/FOLD.h ino/drive.cpp ino/drive.h ino/wiring.h ino/wheel.h ino/wheel.cpp ino/echo.h ino/echo.cpp | ino ino/Arduino-Makefile /usr/share/arduino/libraries/Adafruit_MotorShield
+inomake: $(INOMAKE_NORMAL_DEPS) | $(INOMAKE_SPECIAL_DEPS)
 	cd ino && make
 
 upload: inomake

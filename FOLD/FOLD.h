@@ -4,6 +4,7 @@
 
 #include <Arduino.h>
 #include "drive.h"
+#include "switch.h"
 #include "echo.h"
 
 void setup();
