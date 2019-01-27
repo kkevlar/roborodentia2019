@@ -5,6 +5,8 @@ void echo_init()
     pinMode(PIN_ULTRASONIC_TRIG, OUTPUT);
     pinMode(PIN_ULTRASONIC_ECHO_SOUTH, INPUT);
     pinMode(PIN_ULTRASONIC_ECHO_WEST, INPUT);
+    pinMode(PIN_ULTRASONIC_ECHO_NORTH, INPUT);
+    pinMode(PIN_ULTRASONIC_ECHO_EAST, INPUT);
 }
 
 double echo_test_mm(uint8_t pin)

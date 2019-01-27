@@ -57,7 +57,7 @@ void go_north()
 {
     drive_vector_t vec;
 
-    vec.degrees = 90;
+    vec.degrees = 0;
     vec.speed = 255;
 
     go(vec);
@@ -67,7 +67,7 @@ void go_south()
 {
     drive_vector_t vec;
 
-    vec.degrees = 90*3;
+    vec.degrees = 180;
     vec.speed = 255;
 
     go(vec);
@@ -77,7 +77,7 @@ void go_east()
 {
     drive_vector_t vec;
 
-    vec.degrees = 0;
+    vec.degrees = 90;
     vec.speed = 255;
 
     go(vec);
@@ -87,7 +87,7 @@ void go_west()
 {
     drive_vector_t vec;
 
-    vec.degrees = 180;
+    vec.degrees = 270;
     vec.speed = 255;
 
     go(vec);

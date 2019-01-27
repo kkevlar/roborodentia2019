@@ -5,6 +5,7 @@ void setup()
 	switch_init();
 	drive_init();
 	echo_init();
+	Serial.begin(9600);
 }
 
 void pcontrol(uint8_t pin_ultrasonic, int16_t mm_target, int16_t mm_cutoff, float pk, drive_vector_t vec, uint8_t pin_switch)
@@ -16,6 +17,7 @@ void pcontrol(uint8_t pin_ultrasonic, int16_t mm_target, int16_t mm_cutoff, floa
 	do
 	{	
 		cm = echo_test_mm(pin_ultrasonic);
+		Serial.println(cm);
 		val = cm;
 		val -= mm_target;
 		val *= pk;
@@ -37,7 +39,7 @@ void pcontrol(uint8_t pin_ultrasonic, int16_t mm_target, int16_t mm_cutoff, floa
 		go(vec);
 		delay(5);
 	}
-	while(cm > mm_cutoff && switch_simple_read(pin_switch));
+	while(cm > mm_cutoff);
 
 
 	//300 --> 30cm
@@ -68,7 +70,7 @@ void safe_roomba_south(void)
 
 	vec.degrees = 180;
 	vec.speed = 255;
-	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,50,50,1,vec,PIN_SWITCH_SOUTH);
+	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,100,0,10,vec,-1);
 }
 
 
@@ -104,8 +106,13 @@ void go_slow_into_wall_south(void)
 	drive_vector_t vec;
 
 	vec.degrees = 180;
-	vec.speed = 100;
-	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,-100,-100,20,vec,PIN_SWITCH_SOUTH);
+	vec.speed = 90;
+	while(!mass_switch_read())
+	{
+		go(vec);
+		delay(10);
+	}
+	go_stop();
 }
 
 void position_west_close(void)
@@ -129,13 +136,25 @@ void position_west_far(void)
 
 void loop()
 {
-	sprint_south();
+	// sprint_south();
+	delay(2000);
 	safe_roomba_south();
+	go_stop();
+	delay(2000);
+	go_north();
+	delay(100);
+	go_stop();
+	delay(2000);
 	go_slow_into_wall_south();
 	while(1)
 	{
-		position_west_close();
-		position_west_far();
+	go_stop();
+	delay(2000);
 	}
+	// while(1)
+	// {
+	// 	position_west_close();
+	// 	position_west_far();
+	// }
 }
 
