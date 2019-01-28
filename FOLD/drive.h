@@ -1,6 +1,7 @@
 #ifndef DRIVE_H
 #define DRIVE_H
 
+#include "testoptions.h"
 #include "wiring.h"
 #include "wheel.h"
 

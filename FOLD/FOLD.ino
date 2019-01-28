@@ -133,8 +133,7 @@ void position_west_far(void)
 	pcontrol(PIN_ULTRASONIC_ECHO_WEST,800,0,1,vec,-1);
 }
 
-
-void loop()
+void roomba_activities()
 {
 	// sprint_south();
 	delay(2000);
@@ -156,5 +155,16 @@ void loop()
 	// 	position_west_close();
 	// 	position_west_far();
 	// }
+}
+
+
+void loop()
+{
+	#ifdef TEST_ECHO
+		echo_print_all();
+		delay(250);
+	#else
+		roomba_activities();
+	#endif
 }
 

@@ -10,6 +10,7 @@ ino/wheel.cpp \
 ino/echo.h \
 ino/echo.cpp \
 ino/switch.cpp \
+ino/testoptions.h\
 ino/switch.h 
 
 INOMAKE_SPECIAL_DEPS=ino \
@@ -30,7 +31,7 @@ gcctest/gcctest.o: gcctest/gcctest.cpp
 gcctest/fakewheel.o: gcctest/fakewheel.cpp
 	g++ -c gcctest/fakewheel.cpp -o gcctest/fakewheel.o
 
-gcctest/drive.o: gcctest/drive.cpp gcctest/drive.h gcctest/wiring.h gcctest/cpTime.h
+gcctest/drive.o: gcctest/drive.cpp gcctest/drive.h gcctest/wiring.h gcctest/testoptions.h gcctest/cpTime.h
 	g++ -c gcctest/drive.cpp -o gcctest/drive.o
 
 gcctest/cpTime.o: gcctest/cpTime.cpp gcctest/cpTime.h
@@ -41,6 +42,9 @@ gcctest/drive.h: FOLD/drive.h
 
 gcctest/wiring.h: FOLD/wiring.h
 	cp FOLD/wiring.h gcctest/wiring.h
+
+gcctest/testoptions.h: FOLD/testoptions.h
+	cp FOLD/testoptions.h gcctest/testoptions.h
 
 gcctest/drive.cpp: FOLD/drive.ino
 	cp FOLD/drive.ino gcctest/drive.cpp
@@ -87,6 +91,9 @@ ino/switch.cpp: FOLD/switch.ino | ino
 ino/wiring.h: FOLD/wiring.h | ino
 	cp FOLD/wiring.h ino/wiring.h
 
+ino/testoptions.h: FOLD/testoptions.h | ino
+	cp FOLD/testoptions.h ino/testoptions.h
+
 /usr/share/arduino/libraries/Adafruit_MotorShield: 
 	git clone git@github.com:adafruit/Adafruit_Motor_Shield_V2_Library.git /usr/share/arduino/libraries/Adafruit_MotorShield
 
@@ -96,7 +103,7 @@ inomake: $(INOMAKE_NORMAL_DEPS) | $(INOMAKE_SPECIAL_DEPS)
 upload: inomake
 	cd ino && make upload
 
-purge:
+purge: clean
 	rm -rf ino
 
 clean:
