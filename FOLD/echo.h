@@ -6,7 +6,7 @@
 #include "wiring.h"
 
 void echo_init();
-double echo_test_mm(uint8_t pin);
+float echo_test_mm(uint8_t pin);
 void echo_print_all();
 
 #endif

@@ -10,8 +10,9 @@ void setup()
 
 void pcontrol(uint8_t pin_ultrasonic, int16_t mm_target, int16_t mm_cutoff, float pk, drive_vector_t vec, uint8_t pin_switch)
 {
-	double cm;
-	double val;
+	float cm;
+	float val;
+	int count = 5;
 
 	int degrees_orig = vec.degrees;
 	do
@@ -30,16 +31,28 @@ void pcontrol(uint8_t pin_ultrasonic, int16_t mm_target, int16_t mm_cutoff, floa
 		{
 			vec.degrees = degrees_orig;
 		}
-		if(val > 255)
-			val = 255;
-		if (val < 20)
+		if(val > vec.speed)
+			val = vec.speed;
+		if (val < 10)
 			val = 0;
+		else if (val < 80)
+			val = 80;
 
 		vec.speed = val;
 		go(vec);
-		delay(5);
+		delay(1); // was 5
+		if(mm_cutoff > 0)
+			if(cm < mm_cutoff)
+				count -= 1;
+			else
+				count = count+1 > 10 ? 10 : count + 1;
+		if(mm_cutoff < 0 && cm > -mm_cutoff)
+			if(cm > -mm_cutoff)
+				count -= 1;
+			else
+				count = count+1 > 10 ? 10 : count + 1;
 	}
-	while(cm > mm_cutoff);
+	while(count > 0);
 
 
 	//300 --> 30cm
@@ -77,7 +90,7 @@ void safe_roomba_south(void)
 // void sprint_south()
 // {
 // 	int degrees;
-// 	double cm;
+// 	float cm;
 // 	drive_vector_t vec;
 // 	uint8_t num_zeros = 0;
 
@@ -119,42 +132,91 @@ void position_west_close(void)
 {
 	drive_vector_t vec;
 
-	vec.degrees = 180-70;
-	vec.speed = 150;
-	pcontrol(PIN_ULTRASONIC_ECHO_WEST,200,0,1,vec,-1);
+	vec.degrees = 90 + 5;
+	vec.speed = 255;
+	pcontrol(PIN_ULTRASONIC_ECHO_WEST,150,170,2,vec,-1);
 }
 
 void position_west_far(void)
 {
 	drive_vector_t vec;
 
-	vec.degrees = 180+70;
-	vec.speed = 150;
-	pcontrol(PIN_ULTRASONIC_ECHO_WEST,800,0,1,vec,-1);
+	vec.degrees = 90 - 15;
+	vec.speed = 255;
+	pcontrol(PIN_ULTRASONIC_ECHO_WEST,700,-680,2,vec,-1);
+}
+
+void old_roomba_activities()
+{
+	// sprint_south();
+	// delay(2000);
+	// safe_roomba_south();
+	// go_stop();
+	// delay(2000);
+	// go_north();
+	// delay(100);
+	go_stop();
+	delay(2000);
+	go_slow_into_wall_south();
+	// while(1)
+	// {
+	// go_stop();
+	// delay(2000);
+	// }
+	while(1)
+	{
+		position_west_close();
+		go_stop();
+		delay(1000);		
+		position_west_far();
+		go_stop();
+		delay(1000);	
+
+	}
 }
 
 void roomba_activities()
 {
-	// sprint_south();
-	delay(2000);
-	safe_roomba_south();
-	go_stop();
-	delay(2000);
-	go_north();
-	delay(100);
-	go_stop();
-	delay(2000);
-	go_slow_into_wall_south();
-	while(1)
+	float north;
+	float south;
+	float east;
+	float west;
+	float greatest;
+	drive_vector_t vec;
+
+	greatest = 0;
+
+
+	vec.speed = 75;
+	vec.degrees = 0;
+
+	north = echo_test_mm(PIN_ULTRASONIC_ECHO_NORTH);
+	south = echo_test_mm(PIN_ULTRASONIC_ECHO_SOUTH);
+	east = echo_test_mm(PIN_ULTRASONIC_ECHO_EAST);
+	west = echo_test_mm(PIN_ULTRASONIC_ECHO_WEST);
+
+	if(north > greatest)
 	{
-	go_stop();
-	delay(2000);
+		vec.degrees = 0;
+		greatest = north;
 	}
-	// while(1)
-	// {
-	// 	position_west_close();
-	// 	position_west_far();
-	// }
+	if(south > greatest)
+	{
+		vec.degrees = 180;
+		greatest = south;
+	}
+	if(east > greatest)
+	{
+		vec.degrees = 270;
+		greatest = east;
+	}
+	if(west > greatest)
+	{
+		vec.degrees = 90;
+		greatest = west;
+	}
+
+	go(vec);
 }
 
 
@@ -162,9 +224,28 @@ void loop()
 {
 	#ifdef TEST_ECHO
 		echo_print_all();
-		delay(250);
+		delay(50);
 	#else
-		roomba_activities();
+		old_roomba_activities();
+		delay(5);
+		// go_stop();
+		// delay(150);
+		// go_north();
+		// delay(150);
+		// go_stop();
+		// delay(150);
+		// go_south();
+		// delay(150);
+		// go_stop();
+		// delay(150);
+		// go_east();
+		// delay(150);
+		// go_stop();
+		// delay(150);
+		// go_west();
+		// delay(150);
+		// go_stop();
+		// delay(150);
 	#endif
 }
 
