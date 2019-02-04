@@ -74,18 +74,8 @@ void sprint_south(void)
 
 	vec.degrees = 180;
 	vec.speed = 255;
-	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,10,600,2,vec,PIN_SWITCH_SOUTH);
+	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,150,250,5,vec,PIN_SWITCH_SOUTH);
 }
-
-void safe_roomba_south(void)
-{
-	drive_vector_t vec;
-
-	vec.degrees = 180;
-	vec.speed = 255;
-	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,100,0,10,vec,-1);
-}
-
 
 // void sprint_south()
 // {
@@ -148,15 +138,16 @@ void position_west_far(void)
 
 void old_roomba_activities()
 {
-	// sprint_south();
-	// delay(2000);
+	sprint_south();
+	// go_stop();
+	// delay(500);
 	// safe_roomba_south();
 	// go_stop();
 	// delay(2000);
 	// go_north();
 	// delay(100);
-	go_stop();
-	delay(2000);
+	// go_stop();
+	// delay(2000);
 	go_slow_into_wall_south();
 	// while(1)
 	// {
@@ -167,10 +158,10 @@ void old_roomba_activities()
 	{
 		position_west_close();
 		go_stop();
-		delay(1000);		
+		delay(100);		
 		position_west_far();
 		go_stop();
-		delay(1000);	
+		delay(100);	
 
 	}
 }
