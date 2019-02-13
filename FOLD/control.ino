@@ -8,6 +8,14 @@ float signum(float f)
     return 1;
 }
 
+float fabs(float f)
+{
+    if(f < 0)
+        return f * -1;
+    else
+        return f;
+}
+
 void fill_p_control_result_default(struct p_control_result* result, struct p_control_args* args)
 {
     result->result_speed = 0;
@@ -29,36 +37,39 @@ void fill_p_control_args_default(struct p_control_args* args)
 
 void p_control_non_block(struct p_control_result* result, struct p_control_args* args)
 {
-    uint16_t abs_max_speed;
+    float abs_max_speed;
     float cm;
     float val;
+    float f_mm_cutoff;
 
-    abs_max_speed = ((uint16_t) abs(args->max_speed));
+    abs_max_speed = fabs((float) args->max_speed);
     
     cm = echo_test_mm(args->pin_ultrasonic);
     val = cm;
     val -= args->mm_target;
     val *= args->pk;
 
-    if(abs(val) > abs_max_speed)
+    if(fabs(val) > abs_max_speed)
         val = abs_max_speed * signum(val);
-    if (abs(val) < args->abs_speed_dead_zone)
+    if (fabs(val) < ((float) args->abs_speed_dead_zone))
         val = 0;
-    else if (val < args->abs_speed_boost_zone)
+    else if (val < ((float) args->abs_speed_boost_zone))
         val = args->abs_speed_boost_zone;
 
     result->result_speed = (int16_t) val;
 
+    f_mm_cutoff = (float) args->mm_cutoff;
+
     if(args->mm_cutoff > 0)
     {
-        if(cm < args->mm_cutoff)
+        if(cm < f_mm_cutoff)
             result->end_condition_count -= 1;
         else
             result->end_condition_count = result->end_condition_count+1 > args->max_end_condition_count ? args->max_end_condition_count : result->end_condition_count + 1;
     }
-    if(args->mm_cutoff < 0 && cm > -args->mm_cutoff)
+    if(args->mm_cutoff < 0 && cm > -f_mm_cutoff)
     {
-        if(cm > -args->mm_cutoff)
+        if(cm > -f_mm_cutoff)
             result->end_condition_count -= 1;
         else
             result->end_condition_count = result->end_condition_count+1 > args->max_end_condition_count ? args->max_end_condition_count : result->end_condition_count + 1;
