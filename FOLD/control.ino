@@ -8,9 +8,28 @@ float signum(float f)
     return 1;
 }
 
+void fill_p_control_result_default(struct p_control_result* result, struct p_control_args* args)
+{
+    result->result_speed = 0;
+    result->end_condition_count = args->max_end_condition_count;
+}
+
+void fill_p_control_args_default(struct p_control_args* args)
+{
+    args->pin_ultrasonic = PIN_ULTRASONIC_ECHO_NORTH;
+    args->mm_target = 100;
+    args->mm_cutoff = 110;
+    args->pk = 1;
+    args->max_speed = 255;
+    args->abs_speed_dead_zone = 20;
+    args->abs_speed_boost_zone = 60;
+    args->pin_switch = PIN_SWITCH_NORTH;
+    args->max_end_condition_count = 5;
+}
+
 void p_control_non_block(struct p_control_result* result, struct p_control_args* args)
 {
-	uint16_t abs_max_speed;
+    uint16_t abs_max_speed;
     float cm;
     float val;
 
@@ -23,10 +42,10 @@ void p_control_non_block(struct p_control_result* result, struct p_control_args*
 
     if(abs(val) > abs_max_speed)
         val = abs_max_speed * signum(val);
-    if (abs(val) < 10)
+    if (abs(val) < args->abs_speed_dead_zone)
         val = 0;
-    else if (val < 80)
-        val = 80;
+    else if (val < args->abs_speed_boost_zone)
+        val = args->abs_speed_boost_zone;
 
     result->result_speed = (int16_t) val;
 
