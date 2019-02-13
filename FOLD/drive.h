@@ -14,6 +14,7 @@ struct _drive_vector_t_
 typedef struct _drive_vector_t_ drive_vector_t;
 
 void drive_init(void);
+int16_t drive_easy_atan(int16_t fb, int16_t lr);
 void go_front(void);
 void go_back(void);
 void go_right(void);

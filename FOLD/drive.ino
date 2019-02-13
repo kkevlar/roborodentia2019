@@ -5,6 +5,19 @@ void drive_init(void)
     wheel_init();
 }
 
+int16_t drive_easy_atan(int16_t fb, int16_t rl)
+{
+    uint16_t deg;
+    float rad;
+
+    rad = atan2((float) fb, (float) rl);
+    rad *= 180.0f;
+    rad /= 3.1415f;
+
+    deg = (uint16_t) rad;
+    return deg;
+}
+
 void go(drive_vector_t vec)
 {
     int16_t speed_fl;

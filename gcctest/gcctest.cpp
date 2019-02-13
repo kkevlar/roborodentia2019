@@ -6,6 +6,8 @@
 
 int main()
 {
+	int fb;
+	int rl;
 	int degrees;
 	drive_vector_t vec;
 
@@ -16,10 +18,22 @@ int main()
 
 	while(1)
 	{
-		printf("Degrees: ");
-		scanf("%d", &degrees);
-		vec.degrees = degrees;
-		go(vec);
+		printf("FB: ");
+		scanf("%d", &fb);
+		printf("RL: ");
+		scanf("%d", &rl);
+
+		degrees = drive_easy_atan(fb,rl);
+
+		printf("degrees = %d\n\n", degrees);
 	}
+
+	// while(1)
+	// {
+	// 	printf("Degrees: ");
+	// 	scanf("%d", &degrees);
+	// 	vec.degrees = degrees;
+	// 	go(vec);
+	// }
 }
 
