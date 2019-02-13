@@ -14,10 +14,10 @@ struct _drive_vector_t_
 typedef struct _drive_vector_t_ drive_vector_t;
 
 void drive_init(void);
-void go_north(void);
-void go_south(void);
-void go_east(void);
-void go_west(void);
+void go_front(void);
+void go_back(void);
+void go_right(void);
+void go_left(void);
 void go_stop(void);
 void go(drive_vector_t vec);
 

@@ -68,13 +68,13 @@ void pcontrol(uint8_t pin_ultrasonic, int16_t mm_target, int16_t mm_cutoff, floa
 	//600 --> 64cm
 }
 
-void sprint_south(void)
+void sprint_back(void)
 {
 	drive_vector_t vec;
 
 	vec.degrees = 180;
 	vec.speed = 255;
-	pcontrol(PIN_ULTRASONIC_ECHO_SOUTH,150,250,5,vec,PIN_SWITCH_SOUTH);
+	pcontrol(PIN_ULTRASONIC_ECHO_BACK,150,250,5,vec,PIN_SWITCH_BACK);
 }
 
 // void sprint_south()
@@ -104,7 +104,7 @@ void sprint_south(void)
 // 	}
 // }
 
-void go_slow_into_wall_south(void)
+void go_slow_into_wall_back(void)
 {
 	drive_vector_t vec;
 
@@ -118,27 +118,27 @@ void go_slow_into_wall_south(void)
 	go_stop();
 }
 
-void position_west_close(void)
+void position_left_close(void)
 {
 	drive_vector_t vec;
 
 	vec.degrees = 90 + 5;
 	vec.speed = 255;
-	pcontrol(PIN_ULTRASONIC_ECHO_WEST,150,170,2,vec,-1);
+	pcontrol(PIN_ULTRASONIC_ECHO_LEFT,150,170,2,vec,-1);
 }
 
-void position_west_far(void)
+void position_left_far(void)
 {
 	drive_vector_t vec;
 
 	vec.degrees = 90 - 15;
 	vec.speed = 255;
-	pcontrol(PIN_ULTRASONIC_ECHO_WEST,700,-680,2,vec,-1);
+	pcontrol(PIN_ULTRASONIC_ECHO_LEFT,700,-680,2,vec,-1);
 }
 
 void old_roomba_activities()
 {
-	sprint_south();
+	sprint_back();
 	// go_stop();
 	// delay(500);
 	// safe_roomba_south();
@@ -148,7 +148,7 @@ void old_roomba_activities()
 	// delay(100);
 	// go_stop();
 	// delay(2000);
-	go_slow_into_wall_south();
+	go_slow_into_wall_back();
 	// while(1)
 	// {
 	// go_stop();
@@ -156,60 +156,15 @@ void old_roomba_activities()
 	// }
 	while(1)
 	{
-		position_west_close();
+		position_left_close();
 		go_stop();
 		delay(100);		
-		position_west_far();
+		position_left_far();
 		go_stop();
 		delay(100);	
 
 	}
 }
-
-void roomba_activities()
-{
-	float north;
-	float south;
-	float east;
-	float west;
-	float greatest;
-	drive_vector_t vec;
-
-	greatest = 0;
-
-
-	vec.speed = 75;
-	vec.degrees = 0;
-
-	north = echo_test_mm(PIN_ULTRASONIC_ECHO_NORTH);
-	south = echo_test_mm(PIN_ULTRASONIC_ECHO_SOUTH);
-	east = echo_test_mm(PIN_ULTRASONIC_ECHO_EAST);
-	west = echo_test_mm(PIN_ULTRASONIC_ECHO_WEST);
-
-	if(north > greatest)
-	{
-		vec.degrees = 0;
-		greatest = north;
-	}
-	if(south > greatest)
-	{
-		vec.degrees = 180;
-		greatest = south;
-	}
-	if(east > greatest)
-	{
-		vec.degrees = 270;
-		greatest = east;
-	}
-	if(west > greatest)
-	{
-		vec.degrees = 90;
-		greatest = west;
-	}
-
-	go(vec);
-}
-
 
 void loop()
 {

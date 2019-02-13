@@ -14,7 +14,7 @@ void wheel_init(void)
 
 void print_wheels(void)
 {
-	printf("NW=%4d NE=%4d SW=%4d SE=%4d\n",
+	printf("FL=%4d FR=%4d BL=%4d BR=%4d\n",
 		wheel_speeds[0],
 		wheel_speeds[1],
 		wheel_speeds[2],
@@ -26,17 +26,17 @@ void print_wheels(void)
 void set_speed(uint8_t wheel, int16_t speed, int time)
 {
 	int wheel_index = 0;
-   	if(wheel == WHEEL_NW)
+   	if(wheel == WHEEL_FL)
    		wheel_index = 0;
-   	if(wheel == WHEEL_NE)
+   	if(wheel == WHEEL_FR)
    		wheel_index = 1;
-   	if(wheel == WHEEL_SW)
+   	if(wheel == WHEEL_BL)
    		wheel_index = 2;
-   	if(wheel == WHEEL_SE)
+   	if(wheel == WHEEL_BR)
    		wheel_index = 3;
 
 	wheel_speeds[wheel_index] = speed;
-  if(wheel==WHEEL_SE)
+  if(wheel==WHEEL_BR)
 	print_wheels();   	
 }
 

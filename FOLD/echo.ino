@@ -3,12 +3,14 @@
 void echo_init()
 {
     pinMode(PIN_ULTRASONIC_TRIG, OUTPUT);
-    pinMode(PIN_ULTRASONIC_ECHO_SOUTH, INPUT);
-    pinMode(PIN_ULTRASONIC_ECHO_WEST, INPUT);
-    pinMode(PIN_ULTRASONIC_ECHO_NORTH, INPUT);
-    pinMode(PIN_ULTRASONIC_ECHO_EAST, INPUT);
+    pinMode(PIN_ULTRASONIC_ECHO_BACK, INPUT);
+    pinMode(PIN_ULTRASONIC_ECHO_LEFT, INPUT);
+    pinMode(PIN_ULTRASONIC_ECHO_FRONT, INPUT);
+    pinMode(PIN_ULTRASONIC_ECHO_RIGHT, INPUT);
 
-    Serial.begin(9600);
+    #ifdef TEST_ECHO
+        Serial.begin(9600);
+    #endif
 }
 
 float echo_test_mm(uint8_t pin)
@@ -27,7 +29,6 @@ float echo_test_mm(uint8_t pin)
 
     myout = (duration);
     myout *= (0.171821f);
-    Serial.println(myout);
     return myout;
 }
 
@@ -37,13 +38,13 @@ void echo_print_all()
         char buf[1024];
         int offset = 0;
 
-        offset += sprintf(buf+offset, "N: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_NORTH));
+        offset += sprintf(buf+offset, "F: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT));
         delay(10);
-        offset += sprintf(buf+offset, "E: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_EAST));
+        offset += sprintf(buf+offset, "R: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT));
         delay(10);
-        offset += sprintf(buf+offset, "S: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_SOUTH));
+        offset += sprintf(buf+offset, "B: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_BACK));
         delay(10);
-        offset += sprintf(buf+offset, "W: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_WEST));
+        offset += sprintf(buf+offset, "L: %4d ",(int) echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT));
         delay(10);
 
         Serial.println(buf);

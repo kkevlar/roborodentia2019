@@ -7,10 +7,10 @@ void drive_init(void)
 
 void go(drive_vector_t vec)
 {
-    int16_t speed_nw;
-    int16_t speed_ne;
-    int16_t speed_sw;
-    int16_t speed_se;
+    int16_t speed_fl;
+    int16_t speed_fr;
+    int16_t speed_bl;
+    int16_t speed_br;
     int16_t speed_max;
     float angle;
     float speed_default;
@@ -22,38 +22,38 @@ void go(drive_vector_t vec)
 
     speed_default = vec.speed;
 
-    speed_nw = speed_default * sin(angle);
-    speed_ne = speed_default * sin(angle);
-    speed_sw = speed_default * -sin(angle);
-    speed_se = speed_default * -sin(angle);
+    speed_fl = speed_default * sin(angle);
+    speed_fr = speed_default * sin(angle);
+    speed_bl = speed_default * -sin(angle);
+    speed_br = speed_default * -sin(angle);
 
-    speed_nw += speed_default * cos(angle);
-    speed_ne += speed_default * -cos(angle);
-    speed_sw += speed_default * cos(angle);
-    speed_se += speed_default * -cos(angle);
+    speed_fl += speed_default * cos(angle);
+    speed_fr += speed_default * -cos(angle);
+    speed_bl += speed_default * cos(angle);
+    speed_br += speed_default * -cos(angle);
 
-    speed_max = speed_nw;
-    if(speed_ne > speed_max)
-        speed_max = speed_ne;
-    if(speed_sw > speed_max)
-        speed_max = speed_sw;
-    if(speed_se > speed_max)
-        speed_max = speed_se;
+    speed_max = speed_fl;
+    if(speed_fr > speed_max)
+        speed_max = speed_fr;
+    if(speed_bl > speed_max)
+        speed_max = speed_bl;
+    if(speed_br > speed_max)
+        speed_max = speed_br;
 
     scale = speed_default/speed_max;
 
-    speed_nw *= scale;
-    speed_ne *= scale;
-    speed_sw *= scale;
-    speed_se *= scale;
+    speed_fl *= scale;
+    speed_fr *= scale;
+    speed_bl *= scale;
+    speed_br *= scale;
 
-    set_speed(WHEEL_NW, OFFSET_NW * speed_nw, 0);
-    set_speed(WHEEL_NE, OFFSET_NE * speed_ne, 0);
-    set_speed(WHEEL_SW, OFFSET_SW * speed_sw, 0);
-    set_speed(WHEEL_SE, OFFSET_SE * speed_se, 0);
+    set_speed(WHEEL_FL, OFFSET_FL * speed_fl, 0);
+    set_speed(WHEEL_FR, OFFSET_FR * speed_fr, 0);
+    set_speed(WHEEL_BL, OFFSET_BL * speed_bl, 0);
+    set_speed(WHEEL_BR, OFFSET_BR * speed_br, 0);
 }
 
-void go_north()
+void go_front()
 {
     drive_vector_t vec;
 
@@ -63,7 +63,7 @@ void go_north()
     go(vec);
 }
 
-void go_south()
+void go_back()
 {
     drive_vector_t vec;
 
@@ -73,7 +73,7 @@ void go_south()
     go(vec);
 }
 
-void go_east()
+void go_right()
 {
     drive_vector_t vec;
 
@@ -83,7 +83,7 @@ void go_east()
     go(vec);
 }
 
-void go_west()
+void go_left()
 {
     drive_vector_t vec;
 

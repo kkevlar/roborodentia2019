@@ -16,14 +16,14 @@ void fill_p_control_result_default(struct p_control_result* result, struct p_con
 
 void fill_p_control_args_default(struct p_control_args* args)
 {
-    args->pin_ultrasonic = PIN_ULTRASONIC_ECHO_NORTH;
+    args->pin_ultrasonic = PIN_ULTRASONIC_ECHO_FRONT;
     args->mm_target = 100;
     args->mm_cutoff = 110;
     args->pk = 1;
     args->max_speed = 255;
     args->abs_speed_dead_zone = 20;
     args->abs_speed_boost_zone = 60;
-    args->pin_switch = PIN_SWITCH_NORTH;
+    args->pin_switch = PIN_SWITCH_FRONT;
     args->max_end_condition_count = 5;
 }
 
