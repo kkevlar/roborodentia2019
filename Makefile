@@ -2,12 +2,12 @@
 INOMAKE_NORMAL_DEPS=ino/Makefile \
 ino/FOLD.cpp \
 ino/FOLD.h \
+ino/echo.h \
 ino/drive.cpp \
 ino/drive.h \
 ino/wiring.h \
 ino/wheel.h \
 ino/wheel.cpp \
-ino/echo.h \
 ino/echo.cpp \
 ino/switch.cpp \
 ino/testoptions.h\
@@ -17,7 +17,7 @@ INOMAKE_SPECIAL_DEPS=ino \
 ino/Arduino-Makefile \
 /usr/share/arduino/libraries/Adafruit_MotorShield
 
-all: ino inomake test
+all: ino inomake
 
 test: gcctest/gcctest
 	cp gcctest/gcctest test
