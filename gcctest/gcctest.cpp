@@ -14,11 +14,12 @@ int main()
 
 	vec.speed = 255;
 
-	for(degrees = 0; degrees < 360; degrees++)
+	while(1)
 	{
+		printf("Degrees: ");
+		scanf("%d", &degrees);
 		vec.degrees = degrees;
 		go(vec);
-		cpSleep(300);
 	}
 }
 
