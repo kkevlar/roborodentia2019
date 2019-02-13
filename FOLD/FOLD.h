@@ -7,6 +7,7 @@
 #include "drive.h"
 #include "switch.h"
 #include "echo.h"
+#include "control.h"
 
 void setup();
 void loop();

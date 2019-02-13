@@ -8,6 +8,8 @@ ino/drive.h \
 ino/wiring.h \
 ino/wheel.h \
 ino/wheel.cpp \
+ino/control.h \
+ino/control.cpp \
 ino/echo.cpp \
 ino/switch.cpp \
 ino/testoptions.h\
@@ -17,7 +19,7 @@ INOMAKE_SPECIAL_DEPS=ino \
 ino/Arduino-Makefile \
 /usr/share/arduino/libraries/Adafruit_MotorShield
 
-all: ino inomake
+all: ino inomake test
 
 test: gcctest/gcctest
 	cp gcctest/gcctest test
@@ -81,6 +83,12 @@ ino/echo.h: FOLD/echo.h | ino
 
 ino/echo.cpp: FOLD/echo.ino | ino
 	cp FOLD/echo.ino ino/echo.cpp
+
+ino/control.h: FOLD/control.h | ino
+	cp FOLD/control.h ino/control.h
+
+ino/control.cpp: FOLD/control.ino | ino
+	cp FOLD/control.ino ino/control.cpp
 
 ino/switch.h: FOLD/switch.h | ino
 	cp FOLD/switch.h ino/switch.h
