@@ -5,6 +5,10 @@ ino/FOLD.h \
 ino/echo.h \
 ino/drive.cpp \
 ino/drive.h \
+ino/main.cpp \
+ino/main.h \
+ino/test.cpp \
+ino/test.h \
 ino/wiring.h \
 ino/wheel.h \
 ino/wheel.cpp \
@@ -77,6 +81,18 @@ ino/wheel.h: FOLD/wheel.h | ino
 
 ino/wheel.cpp: FOLD/wheel.ino | ino
 	cp FOLD/wheel.ino ino/wheel.cpp
+
+ino/test.h: FOLD/test.h | ino
+	cp FOLD/test.h ino/test.h
+
+ino/test.cpp: FOLD/test.ino | ino
+	cp FOLD/test.ino ino/test.cpp
+
+ino/main.h: FOLD/main.h | ino
+	cp FOLD/main.h ino/main.h
+
+ino/main.cpp: FOLD/main.ino | ino
+	cp FOLD/main.ino ino/main.cpp
 
 ino/echo.h: FOLD/echo.h | ino
 	cp FOLD/echo.h ino/echo.h

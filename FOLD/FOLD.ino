@@ -1,6 +1,6 @@
 #include "FOLD.h"
 
-void setup()
+void fold_setup()
 {
 	switch_init();
 	drive_init();
@@ -166,32 +166,8 @@ void old_roomba_activities()
 	}
 }
 
-void loop()
+void fold_loop()
 {
-	#ifdef TEST_ECHO
-		echo_print_all();
-		delay(50);
-	#else
-		old_roomba_activities();
-		delay(5);
-		// go_stop();
-		// delay(150);
-		// go_north();
-		// delay(150);
-		// go_stop();
-		// delay(150);
-		// go_south();
-		// delay(150);
-		// go_stop();
-		// delay(150);
-		// go_east();
-		// delay(150);
-		// go_stop();
-		// delay(150);
-		// go_west();
-		// delay(150);
-		// go_stop();
-		// delay(150);
-	#endif
+	
 }
 

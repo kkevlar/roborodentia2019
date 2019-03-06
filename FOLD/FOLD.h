@@ -9,8 +9,8 @@
 #include "echo.h"
 #include "control.h"
 
-void setup();
-void loop();
+void fold_setup();
+void fold_loop();
 
 #endif
 
