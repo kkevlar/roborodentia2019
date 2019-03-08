@@ -35,15 +35,15 @@ void go(drive_vector_t vec)
 
     speed_default = vec.speed;
 
-    speed_fl = speed_default * sin(angle);
-    speed_fr = speed_default * sin(angle);
-    speed_bl = speed_default * -sin(angle);
-    speed_br = speed_default * -sin(angle);
+    speed_fl = speed_default * cos(angle);
+    speed_fr = speed_default * cos(angle);
+    speed_bl = speed_default * -cos(angle);
+    speed_br = speed_default * -cos(angle);
 
-    speed_fl += speed_default * cos(angle);
-    speed_fr += speed_default * -cos(angle);
-    speed_bl += speed_default * cos(angle);
-    speed_br += speed_default * -cos(angle);
+    speed_fl += speed_default * sin(angle);
+    speed_fr += speed_default * -sin(angle);
+    speed_bl += speed_default * sin(angle);
+    speed_br += speed_default * -sin(angle);
 
     speed_max = speed_fl;
     if(speed_fr > speed_max)

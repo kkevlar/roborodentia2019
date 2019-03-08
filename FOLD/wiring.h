@@ -26,8 +26,8 @@
 #define PIN_SWITCH_LEFT_FRONT 7
 
 #define OFFSET_FL -1
-#define OFFSET_FR 1
-#define OFFSET_BL 1
-#define OFFSET_BR 1
+#define OFFSET_FR -1
+#define OFFSET_BL -1
+#define OFFSET_BR -1
 
 #endif
