@@ -4,11 +4,13 @@
 
 #include "testoptions.h"
 #include <Arduino.h>
-#include "FOLD.h"
-#include "test.h"
+#include "drive.h"
+#include "switch.h"
+#include "echo.h"
+#include "control.h"
 
-void setup();
-void loop();
+void main_setup();
+void main_loop();
 
 #endif
 
