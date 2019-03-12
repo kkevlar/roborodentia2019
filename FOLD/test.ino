@@ -71,6 +71,8 @@ void echo_test()
 	int16_t i_left = -1;
 	int16_t i_right = -1;
 
+	go_stop();
+	
 	f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
 	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
 	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
