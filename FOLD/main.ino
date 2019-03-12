@@ -172,7 +172,6 @@ void main_loop()
 	drive_vector_t vec;
 	vec.degrees = 180;
 	vec.speed = 255;
-	vec.maxspeed = 255;
 
 	args.pin_ultrasonic = PIN_ULTRASONIC_ECHO_LEFT;
     args.pk = 1.5f;

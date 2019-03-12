@@ -9,7 +9,7 @@ struct _drive_vector_t_
 {
 	int16_t degrees; 
 	int16_t speed;
-	uint8_t maxspeed; 
+	// uint8_t maxspeed; 
 };
 typedef struct _drive_vector_t_ drive_vector_t;
 

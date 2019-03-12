@@ -18,6 +18,67 @@ int16_t drive_easy_atan(int16_t fb, int16_t rl)
     return deg;
 }
 
+void drive_fix_vector(drive_vector_t* vec)
+{
+    if(vec->speed < 0)
+    {
+        vec->speed = -vec->speed;
+        vec->degrees += 180;
+    }
+}
+
+float drive_degrees_to_rad(float degrees)
+{
+    float rad;
+    rad = degrees;
+    rad *= 3.1415926f;
+    rad /= 180;
+    return rad;
+}
+
+int16_t drive_rad_to_degrees(float rad)
+{
+    float degrees;
+    degrees = rad;
+    degrees /= 3.1415926f;
+    degrees *= 180;
+    return (int16_t) degrees;
+}
+
+void drive_calc_xy(drive_vector_t vec, float* fb, float* lr)
+{
+    float angle;
+
+    drive_fix_vector(&vec);
+    angle = drive_degrees_to_rad(vec.degrees);
+    *fb = vec.speed * cos(angle);
+    *lr = vec.speed * sin(angle);
+}
+
+drive_vector_t drive_combine_vecs(drive_vector_t a, drive_vector_t b, int speed_max)
+{
+    drive_vector_t res;
+    float a_lr;
+    float a_fb;
+    float b_lr;
+    float b_fb;
+    float rad;
+
+    drive_calc_xy(a, &a_fb, &a_lr);
+    drive_calc_xy(b, &b_fb, &b_lr);
+
+    a_lr += b_lr;
+    a_fb += b_fb;
+    rad = atan2(a_lr,a_fb);
+
+    res.degrees = drive_rad_to_degrees(rad);
+    res.speed = 0;
+    res.speed += a.speed * a.speed;
+    res.speed += b.speed * b.speed;
+    res.speed = sqrt(res.speed);
+    return res;
+}
+
 void go(drive_vector_t vec)
 {
     int16_t speed_fl;
@@ -29,15 +90,9 @@ void go(drive_vector_t vec)
     float speed_default;
     float scale;
 
-    if(vec.speed < 0)
-    {
-        vec.speed = -vec.speed;
-        vec.degrees += 180;
-    }
-    angle = vec.degrees;
-    angle *= 3.1415926f;
-    angle /= 180;
+    drive_fix_vector(&vec);
 
+    angle = drive_degrees_to_rad(vec.degrees);
     speed_default = vec.speed;
 
     speed_fl = speed_default * cos(angle);
