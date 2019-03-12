@@ -29,6 +29,11 @@ void go(drive_vector_t vec)
     float speed_default;
     float scale;
 
+    if(vec.speed < 0)
+    {
+        vec.speed = -vec.speed;
+        vec.degrees += 180;
+    }
     angle = vec.degrees;
     angle *= 3.1415926f;
     angle /= 180;

@@ -72,11 +72,11 @@ void echo_test()
 	int16_t i_right = -1;
 
 	go_stop();
-	
-	f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
-	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
-	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
-	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
+
+	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
+	f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
+	f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
 
 	i_front = f_front;
 	i_back = f_back;
@@ -89,7 +89,8 @@ void echo_test()
 		i_left,
 		i_right
 		);
-	Serial.println(buf);	
+	Serial.println(buf);
+	delay(500);
 }
 
 void test_loop()
@@ -104,8 +105,8 @@ void test_loop()
 		switch_test();
 	#elif defined(TEST_ECHO)
 		echo_test();
-	#else
-		#error "No test defined?"
+	#elif defined(GAME_A)
+		#warning "THIS IS NOT A DRILL"
 	#endif
 }
 

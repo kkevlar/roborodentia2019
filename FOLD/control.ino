@@ -53,8 +53,8 @@ void p_control_non_block(struct p_control_result* result, struct p_control_args*
         val = abs_max_speed * signum(val);
     if (fabs(val) < ((float) args->abs_speed_dead_zone))
         val = 0;
-    else if (val < ((float) args->abs_speed_boost_zone))
-        val = args->abs_speed_boost_zone;
+    else if (fabs(val) < ((float) args->abs_speed_boost_zone))
+        val = args->abs_speed_boost_zone * signum(val);
 
     result->result_speed = (int16_t) val;
 
