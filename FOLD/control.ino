@@ -15,7 +15,7 @@ float fabs(float f)
     else
         return f;
 }
-
+/*
 void fill_p_control_result_default(struct p_control_result* result, struct p_control_args* args)
 {
     result->result_speed = 0;
@@ -33,7 +33,7 @@ void fill_p_control_args_default(struct p_control_args* args)
     args->abs_speed_boost_zone = 60;
     args->pin_switch = PIN_SWITCH_FRONT;
     args->max_end_condition_count = 5;
-}
+}*/
 
 void p_control_non_block(struct p_control_result* result, struct p_control_args* args)
 {
