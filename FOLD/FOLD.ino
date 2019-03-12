@@ -3,18 +3,30 @@
 
 void setup()
 {
-	#ifdef FOLD_GLOBAL_TEST
+	#if defined(TEST_DRIVE_STOP) || \
+	defined(TEST_SWITCH) ||\
+	defined(TEST_DRIVE_DIAG) ||\
+	defined(TEST_DRIVE_CARD) ||\
+	defined(TEST_ECHO)
 		test_setup();
-	#else
+	#elif defined(GAME_A)
 		main_setup();
+	#else
+		#error "NO OPTION"
 	#endif
 }
 
 void loop()
 {
-	#ifdef FOLD_GLOBAL_TEST
+	#if defined(TEST_DRIVE_STOP) || \
+	defined(TEST_SWITCH) ||\
+	defined(TEST_DRIVE_DIAG) ||\
+	defined(TEST_DRIVE_CARD) ||\
+	defined(TEST_ECHO)
 		test_loop();
-	#else
+	#elif defined(GAME_A)
 		main_loop();
+	#else
+		#error "NO OPTION"
 	#endif
 }

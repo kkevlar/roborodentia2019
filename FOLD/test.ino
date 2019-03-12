@@ -59,19 +59,51 @@ void card_test()
 	delay(1000);
 }
 
+void echo_test()
+{
+	float f_front = -1;
+	float f_back = -1;
+	float f_left = -1;
+	float f_right = -1;
+	char buf[128];
+	int16_t i_front = -1;
+	int16_t i_back = -1;
+	int16_t i_left = -1;
+	int16_t i_right = -1;
+
+	f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
+	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
+	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
+
+	i_front = f_front;
+	i_back = f_back;
+	i_left = f_left;
+	i_right = f_right;
+
+	snprintf(buf, 128,"F:%5d B:%5d L:%5d R:%5d",
+		i_front,
+		i_back,
+		i_left,
+		i_right
+		);
+	Serial.println(buf);	
+}
+
 void test_loop()
 {
-	#ifdef TEST_DRIVE_STOP
+	#if defined(TEST_DRIVE_STOP)
 		go_stop();
-	#endif
-	#ifdef TEST_DRIVE_DIAG
+	#elif defined(TEST_DRIVE_DIAG)
 		diag_test();
-	#endif
-	#ifdef TEST_DRIVE_CARD
+	#elif defined(TEST_DRIVE_CARD)
 		card_test();
-	#endif
-	#ifdef TEST_SWITCH
+	#elif defined(TEST_SWITCH)
 		switch_test();
+	#elif defined(TEST_ECHO)
+		echo_test();
+	#else
+		#error "No test defined?"
 	#endif
 }
 
