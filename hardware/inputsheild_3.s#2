@@ -4264,12 +4264,24 @@ part number 2062-2P from STA</description>
 <text x="0" y="0" size="0.0254" layer="27">&gt;VALUE</text>
 <text x="-1.5" y="-2.5" size="1.27" layer="25" rot="R90">&gt;NAME</text>
 </package>
+<package name="SMD1,27-2,54" urn="urn:adsk.eagle:footprint:30822/1" library_version="1">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<smd name="1" x="0" y="0" dx="1.27" dy="2.54" layer="1"/>
+<text x="0" y="0" size="0.0254" layer="27">&gt;VALUE</text>
+<text x="-0.8" y="-2.4" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+</package>
 </packages>
 <packages3d>
 <package3d name="SMD2,54-5,08" urn="urn:adsk.eagle:package:30841/1" type="box" library_version="1">
 <description>SMD PAD</description>
 <packageinstances>
 <packageinstance name="SMD2,54-5,08"/>
+</packageinstances>
+</package3d>
+<package3d name="SMD1,27-2,54" urn="urn:adsk.eagle:package:30839/1" type="box" library_version="1">
+<description>SMD PAD</description>
+<packageinstances>
+<packageinstance name="SMD1,27-2,54"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -4295,6 +4307,25 @@ part number 2062-2P from STA</description>
 </connects>
 <package3dinstances>
 <package3dinstance package3d_urn="urn:adsk.eagle:package:30841/1"/>
+</package3dinstances>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="SMD2" urn="urn:adsk.eagle:component:30857/1" prefix="PAD" uservalue="yes" library_version="1">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<gates>
+<gate name="1" symbol="PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SMD1,27-2,54">
+<connects>
+<connect gate="1" pin="P" pad="1"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:30839/1"/>
 </package3dinstances>
 <technologies>
 <technology name=""/>
@@ -4347,14 +4378,19 @@ part number 2062-2P from STA</description>
 <part name="PAD6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
 <part name="PAD7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
 <part name="PAD8" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD9" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD10" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD11" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD12" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD13" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD14" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD15" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
-<part name="PAD16" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD5" device="" package3d_urn="urn:adsk.eagle:package:30841/1"/>
+<part name="PAD9" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD10" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD11" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD12" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD13" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD14" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD15" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD16" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD17" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD18" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD19" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD20" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="PAD21" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -4520,6 +4556,26 @@ part number 2062-2P from STA</description>
 <instance part="PAD16" gate="1" x="127" y="-116.84" smashed="yes">
 <attribute name="NAME" x="125.857" y="-114.9858" size="1.778" layer="95"/>
 <attribute name="VALUE" x="125.857" y="-120.142" size="1.778" layer="96"/>
+</instance>
+<instance part="PAD17" gate="1" x="139.7" y="12.7" smashed="yes">
+<attribute name="NAME" x="138.557" y="14.5542" size="1.778" layer="95"/>
+<attribute name="VALUE" x="138.557" y="9.398" size="1.778" layer="96"/>
+</instance>
+<instance part="PAD18" gate="1" x="139.7" y="5.08" smashed="yes">
+<attribute name="NAME" x="138.557" y="6.9342" size="1.778" layer="95"/>
+<attribute name="VALUE" x="138.557" y="1.778" size="1.778" layer="96"/>
+</instance>
+<instance part="PAD19" gate="1" x="139.7" y="-2.54" smashed="yes">
+<attribute name="NAME" x="138.557" y="-0.6858" size="1.778" layer="95"/>
+<attribute name="VALUE" x="138.557" y="-5.842" size="1.778" layer="96"/>
+</instance>
+<instance part="PAD20" gate="1" x="139.7" y="-10.16" smashed="yes">
+<attribute name="NAME" x="138.557" y="-8.3058" size="1.778" layer="95"/>
+<attribute name="VALUE" x="138.557" y="-13.462" size="1.778" layer="96"/>
+</instance>
+<instance part="PAD21" gate="1" x="142.24" y="-17.78" smashed="yes">
+<attribute name="NAME" x="141.097" y="-15.9258" size="1.778" layer="95"/>
+<attribute name="VALUE" x="141.097" y="-21.082" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
