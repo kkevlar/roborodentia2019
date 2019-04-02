@@ -67,15 +67,26 @@ drive_vector_t drive_combine_vecs(drive_vector_t a, drive_vector_t b, int speed_
     drive_calc_xy(a, &a_fb, &a_lr);
     drive_calc_xy(b, &b_fb, &b_lr);
 
+    // char buf[20];
+    // snprintf(buf,20,"%d %d %d %d %d %d",
+    //     a.speed,
+    //     b.speed,
+    //     (int) a_fb,
+    //     (int) a_lr,
+    //     (int) b_fb,
+    //     (int) b_lr
+    //     );
+    // Serial.println(buf);
+
     a_lr += b_lr;
     a_fb += b_fb;
     rad = atan2(a_lr,a_fb);
 
     res.degrees = drive_rad_to_degrees(rad);
-    res.speed = 0;
+    res.speed = abs(a.speed) > abs(b.speed) ? abs(a.speed) : abs(b.speed);/*
     res.speed += a.speed * a.speed;
     res.speed += b.speed * b.speed;
-    res.speed = sqrt(res.speed);
+    res.speed = sqrt(res.speed);*/
     return res;
 }
 

@@ -1,7 +1,6 @@
 
 #include "switch.h"
 
-int pins[TOTAL_SWITCH_COUNT];
 
 void switch_init(void)
 {
@@ -21,15 +20,15 @@ int switch_simple_read(uint8_t switch_pin)
         return HIGH;
 }
 
-int mass_switch_read()
-{
-    for(int i = 2; i <= 7; i++)
-    {
-        if(digitalRead(i) == LOW)
-            return 1;
-    }
-    return 0;
-}
+// int mass_switch_read()
+// {
+//     for(int i = 2; i <= 7; i++)
+//     {
+//         if(digitalRead(i) == LOW)
+//             return 1;
+//     }
+//     return 0;
+// }
 
 // int test_switch_arbitrary(long breaktime, int pincount, int* pins)
 // {

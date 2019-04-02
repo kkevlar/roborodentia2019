@@ -10,7 +10,7 @@
 
 void switch_init(void);
 int switch_simple_read(uint8_t pin_switch);
-int mass_switch_read();
+// int mass_switch_read();
 // int test_switch_south(long breaktime);
 // int test_switch_north(long breaktime);
 // int test_switch_east(long breaktime);

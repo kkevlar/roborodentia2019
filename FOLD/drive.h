@@ -3,6 +3,7 @@
 
 #include "testoptions.h"
 #include "wiring.h"
+#include <Arduino.h>
 #include "wheel.h"
 
 struct _drive_vector_t_
@@ -15,6 +16,7 @@ typedef struct _drive_vector_t_ drive_vector_t;
 
 void drive_init(void);
 int16_t drive_easy_atan(int16_t fb, int16_t lr);
+drive_vector_t drive_combine_vecs(drive_vector_t a, drive_vector_t b, int speed_max);
 void go_front(void);
 void go_back(void);
 void go_right(void);
