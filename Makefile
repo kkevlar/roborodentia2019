@@ -23,7 +23,7 @@ INOMAKE_SPECIAL_DEPS=ino \
 ino/Arduino-Makefile \
 /usr/share/arduino/libraries/Adafruit_MotorShield
 
-all: ino inomake test
+all: ino inomake
 
 test: gcctest/gcctest
 	cp gcctest/gcctest test

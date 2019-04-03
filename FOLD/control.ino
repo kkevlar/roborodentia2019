@@ -15,6 +15,15 @@ float fabs(float f)
     else
         return f;
 }
+
+uint8_t u8_max(uint8_t a, uint8_t b)
+{
+    if(a > b)
+        return a;
+    else
+        return b;
+}
+
 /*
 void fill_p_control_result_default(struct p_control_result* result, struct p_control_args* args)
 {
@@ -32,59 +41,87 @@ void fill_p_control_args_default(struct p_control_args* args)
     args->abs_speed_dead_zone = 20;
     args->abs_speed_boost_zone = 60;
     args->pin_switch = PIN_SWITCH_FRONT;
-    args->max_end_condition_count = 5;
+    args->echo_data_buf_count = 1;
 }*/
+
+void control_clear_result(struct p_control_result* result)
+{
+    int i;
+
+    result->result_speed = 0;
+    result->end_condition_count = 0;
+    result->echo_datas_index = 0;
+
+    for(i = 0; i < ECHO_DATAS_MAX_BUF; i++)
+        result->echo_datas[i] = 0;
+}
+
+float echo_read_buffered(struct p_control_result* result, struct p_control_args* args)
+{
+    float sum;
+    float temp;
+    uint8_t count;
+    uint8_t i;
+
+    temp = echo_test_mm(args->pin_ultrasonic);
+    result->echo_datas[result->echo_datas_index++] = temp;
+    result->echo_datas_index %= args->echo_data_buf_count;
+
+    sum = 0;
+    count = 0;
+    for (i = 0; i < args->echo_data_buf_count; i++)
+    {
+        temp = result->echo_datas[i];
+        sum += temp;
+        if(temp > 0.001)
+            count+= 1;
+    }
+
+    sum /= (float) (u8_max(count, 1));
+    result->echo_avg = sum;
+
+    return sum;
+}
+
+float control_treat_speed(
+    float speed,
+    float max,
+    float dead_zone,
+    float boost_zone)
+{
+    if(fabs(speed) > fabs(max))
+        speed = fabs(max) * signum(speed);
+    if (fabs(speed) < fabs(dead_zone))
+        speed = 0;
+    else if (fabs(speed) < fabs(boost_zone))
+        speed = fabs(boost_zone) * signum(speed);
+
+    return speed;
+}
 
 void p_control_non_block(struct p_control_result* result, struct p_control_args* args)
 {
-    float abs_max_speed;
     float cm;
     float val;
-    float f_mm_cutoff;
-
-    abs_max_speed = fabs((float) args->max_speed);
     
-    cm = echo_test_mm(args->pin_ultrasonic);
+    cm = echo_read_buffered(result, args);
     val = cm;
     val -= args->mm_target;
     val *= args->pk;
 
-    if(fabs(val) > abs_max_speed)
-        val = abs_max_speed * signum(val);
-    if (fabs(val) < ((float) args->abs_speed_dead_zone))
-        val = 0;
-    else if (fabs(val) < ((float) args->abs_speed_boost_zone))
-        val = args->abs_speed_boost_zone * signum(val);
+    val = control_treat_speed(
+        val,
+        (float) args->max_speed,
+        (float) args->abs_speed_dead_zone,
+        (float) args->abs_speed_boost_zone
+        );
 
     result->result_speed = (int16_t) val;
 
-    f_mm_cutoff = (float) args->mm_cutoff;
+    if(fabs(cm - args->mm_target) < fabs(args->mm_accuracy))
+        result->end_condition_count += 1;
+    else
+        result->end_condition_count = (result->end_condition_count < 1 ? 1 : result->end_condition_count) - 1;
 
-    if(args->mm_cutoff > 0)
-    {
-        if(cm < f_mm_cutoff)
-            result->end_condition_count -= 1;
-        else
-            result->end_condition_count = result->end_condition_count+1 > args->max_end_condition_count ? args->max_end_condition_count : result->end_condition_count + 1;
-    }
-    if(args->mm_cutoff < 0 && cm > -f_mm_cutoff)
-    {
-        if(cm > -f_mm_cutoff)
-            result->end_condition_count -= 1;
-        else
-            result->end_condition_count = result->end_condition_count+1 > args->max_end_condition_count ? args->max_end_condition_count : result->end_condition_count + 1;
-    }
-
-    //300 --> 30cm
-    //800 --> 87cm
-    //500 --> 56cm
-    //200 --> 20cm
-    //150 --> 15cm
-    //450 --> 50cm
-    //350 --> 40cm
-    //100 --> 11cm
-    //75 --> 7.5cm
-    //250 --> 27cm
-    //600 --> 64cm
 }
  
