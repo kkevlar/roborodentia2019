@@ -98,26 +98,26 @@ void control_LB_2D_ez(float l_targ, float b_targ)
     args_left.max_speed = 255;
     args_left.abs_speed_dead_zone = 0;
     args_left.abs_speed_boost_zone = 0;
-    args_left.echo_data_buf_count = 10;
+    args_left.echo_data_buf_count = 1;
 
     args_back.pin_ultrasonic = PIN_ULTRASONIC_ECHO_BACK;
     args_back.pk = 1.75f;
     args_back.max_speed = 255;
     args_back.abs_speed_dead_zone = 0;
     args_back.abs_speed_boost_zone = 0;
-    args_back.echo_data_buf_count = 10;
+    args_back.echo_data_buf_count = 1;
 
     while(1)
     {
         args_left.mm_target = l_targ;
-        args_left.mm_accuracy = 5;
+        args_left.mm_accuracy = 10;
         args_back.mm_target = b_targ;
-        args_back.mm_accuracy = 5;
+        args_back.mm_accuracy = 10;
 
-        delay(15);
+        delay(10);
         p_control_non_block(&result_left,&args_left);
         vec_left.speed = (result_left.result_speed);
-        delay(15);
+        delay(10);
         p_control_non_block(&result_back,&args_back);
         vec_back.speed = (result_back.result_speed);
         vec_result = drive_combine_vecs(vec_left, vec_back, 255);
@@ -131,33 +131,11 @@ void control_LB_2D_ez(float l_targ, float b_targ)
 
         go(vec_result);
 
-        if(result_left.end_condition_count > 5
+        if(result_left.end_condition_count > 2
         	&& 
-        	result_back.end_condition_count > 5)
+        	result_back.end_condition_count > 2)
         	break;
     }
-}
-
-void main_loop()
-{
-	go_stop();
-	delay(1000);
-
-	control_LB_2D_ez(200,200);
-	go_stop();
-	delay(1000);
-
-	control_LB_2D_ez(400,400);
-	go_stop();
-	delay(1000);
-
-	control_LB_2D_ez(600,600);
-	go_stop();
-	delay(1000);
-
-	control_LB_2D_ez(700,30);
-	go_stop();
-	delay(1000);
 }
 
 void echo_test_until(
@@ -234,10 +212,15 @@ void position_for_collection(float targ)
 
 void bigtest()
 {
+    drive_vector_t vec;
+
+    vec.speed = 255;
+
     go_stop();
     delay(1000);
 
-    go_left();
+    vec.degrees  = 180;
+    go(vec);
     delay(100);
     echo_test_until(PIN_ULTRASONIC_ECHO_LEFT, 400, 1, 5);
 
@@ -245,8 +228,50 @@ void bigtest()
     delay(2000);
     position_for_collection(700);
 
+     go_stop();
+    delay(2000);
+    position_for_collection(150);
+
+    vec.degrees = 0;
+    go(vec);
+    delay(100);
+    echo_test_until(PIN_ULTRASONIC_ECHO_LEFT, 3000, 0, 5);
+}
+
+void main_loop()
+{
     go_stop();
-    delay(100000);
+
+
+    control_LB_2D_ez(200,200);
+    go_stop();
+
+    drive_vector_t vec;
+
+    vec.degrees = 180;
+    vec.speed = 80;
+
+    go(vec);
+    delay(1500);
+    go_stop();
+
+    control_LB_2D_ez(400,400);
+    go_stop();
+
+    control_LB_2D_ez(600,1500);
+    go_stop();
+
+    control_LB_2D_ez(400,200);
+    go_stop();
+
+    control_LB_2D_ez(120,120);
+    go_stop();
+
+    control_LB_2D_ez(500,500);
+    go_stop();
+
+    control_LB_2D_ez(800,150);
+    go_stop();
 }
 
 
