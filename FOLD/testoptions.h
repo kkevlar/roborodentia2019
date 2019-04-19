@@ -6,8 +6,8 @@
 // #define TEST_SWITCH
 // #define TEST_DRIVE_DIAG
 // #define TEST_DRIVE_CARD
-// #define TEST_ECHO
-#define GAME_A
+#define TEST_ECHO
+// #define GAME_A
 
 
 #endif

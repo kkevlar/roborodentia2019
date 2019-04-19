@@ -74,9 +74,9 @@ void echo_test()
 	go_stop();
 
 	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
-	f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
+	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
 	f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
-	f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
+	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
 
 	i_front = f_front;
 	i_back = f_back;
