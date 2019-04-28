@@ -3234,6 +3234,16 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="20.32" x2="-7.62" y2="20.32" width="0.1524" layer="91"/>
 <label x="-5.08" y="20.32" size="1.778" layer="95" rot="MR0" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="GND"/>
+<wire x1="81.28" y1="93.98" x2="78.74" y2="93.98" width="0.1524" layer="91"/>
+<label x="73.66" y="93.98" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="GND2"/>
+<wire x1="114.3" y1="99.06" x2="116.84" y2="99.06" width="0.1524" layer="91"/>
+<label x="116.84" y="99.06" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="+5V" class="0">
 <segment>
@@ -3259,6 +3269,11 @@ http://www.xganon.com</description>
 <pinref part="COMMON_TERMINAL" gate="-2" pin="KL"/>
 <wire x1="-2.54" y1="15.24" x2="-7.62" y2="15.24" width="0.1524" layer="91"/>
 <label x="-5.08" y="15.24" size="1.778" layer="95" rot="MR0" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="5.5V"/>
+<wire x1="81.28" y1="99.06" x2="78.74" y2="99.06" width="0.1524" layer="91"/>
+<label x="73.66" y="99.06" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="TRIG" class="0">
@@ -3286,6 +3301,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="10.16" x2="-7.62" y2="10.16" width="0.1524" layer="91"/>
 <label x="-5.08" y="10.16" size="1.778" layer="95" rot="MR0" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D7"/>
+<wire x1="114.3" y1="114.3" x2="116.84" y2="114.3" width="0.1524" layer="91"/>
+<label x="116.84" y="114.3" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="EF" class="0">
 <segment>
@@ -3311,6 +3331,11 @@ http://www.xganon.com</description>
 <pinref part="ECHO_TERMINAL" gate="-1" pin="KL"/>
 <wire x1="-2.54" y1="0" x2="-5.08" y2="0" width="0.1524" layer="91"/>
 <label x="-10.16" y="0" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D8"/>
+<wire x1="114.3" y1="116.84" x2="116.84" y2="116.84" width="0.1524" layer="91"/>
+<label x="116.84" y="116.84" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="EL" class="0">
@@ -3339,6 +3364,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="-5.08" x2="-7.62" y2="-5.08" width="0.1524" layer="91"/>
 <label x="-10.16" y="-5.08" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D12"/>
+<wire x1="114.3" y1="127" x2="116.84" y2="127" width="0.1524" layer="91"/>
+<label x="116.84" y="127" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="EB" class="0">
 <segment>
@@ -3364,6 +3394,11 @@ http://www.xganon.com</description>
 <pinref part="ECHO_TERMINAL" gate="-3" pin="KL"/>
 <wire x1="-2.54" y1="-10.16" x2="-5.08" y2="-10.16" width="0.1524" layer="91"/>
 <label x="-10.16" y="-10.16" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D13"/>
+<wire x1="81.28" y1="127" x2="78.74" y2="127" width="0.1524" layer="91"/>
+<label x="73.66" y="127" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="ER" class="0">
@@ -3391,6 +3426,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="-15.24" x2="-5.08" y2="-15.24" width="0.1524" layer="91"/>
 <label x="-10.16" y="-15.24" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D11"/>
+<wire x1="114.3" y1="124.46" x2="116.84" y2="124.46" width="0.1524" layer="91"/>
+<label x="116.84" y="124.46" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="SFL" class="0">
 <segment>
@@ -3417,6 +3457,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="40.64" x2="-5.08" y2="40.64" width="0.1524" layer="91"/>
 <label x="-10.16" y="40.64" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D2"/>
+<wire x1="114.3" y1="101.6" x2="116.84" y2="101.6" width="0.1524" layer="91"/>
+<label x="116.84" y="101.6" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="SFR" class="0">
 <segment>
@@ -3428,6 +3473,11 @@ http://www.xganon.com</description>
 <pinref part="SWTICH_LOC" gate="-1" pin="KL"/>
 <wire x1="-2.54" y1="68.58" x2="-5.08" y2="68.58" width="0.1524" layer="91"/>
 <label x="-10.16" y="68.58" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="A1"/>
+<wire x1="81.28" y1="116.84" x2="78.74" y2="116.84" width="0.1524" layer="91"/>
+<label x="73.66" y="116.84" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SLF" class="0">
@@ -3455,6 +3505,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="35.56" x2="-5.08" y2="35.56" width="0.1524" layer="91"/>
 <label x="-10.16" y="35.56" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D4"/>
+<wire x1="114.3" y1="106.68" x2="116.84" y2="106.68" width="0.1524" layer="91"/>
+<label x="116.84" y="106.68" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="SLB" class="0">
 <segment>
@@ -3475,6 +3530,16 @@ http://www.xganon.com</description>
 <pinref part="SWITCH_XTRA" gate="-1" pin="KL"/>
 <wire x1="-2.54" y1="58.42" x2="-5.08" y2="58.42" width="0.1524" layer="91"/>
 <label x="-10.16" y="58.42" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="B1" gate="G$1" pin="*D5"/>
+<wire x1="86.36" y1="45.72" x2="81.28" y2="45.72" width="0.1524" layer="91"/>
+<label x="78.74" y="45.72" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D5"/>
+<wire x1="114.3" y1="109.22" x2="116.84" y2="109.22" width="0.1524" layer="91"/>
+<label x="116.84" y="109.22" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SRF" class="0">
@@ -3502,6 +3567,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="25.4" x2="-5.08" y2="25.4" width="0.1524" layer="91"/>
 <label x="-10.16" y="25.4" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D6"/>
+<wire x1="114.3" y1="111.76" x2="116.84" y2="111.76" width="0.1524" layer="91"/>
+<label x="116.84" y="111.76" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="SRB" class="0">
 <segment>
@@ -3528,6 +3598,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="53.34" x2="-5.08" y2="53.34" width="0.1524" layer="91"/>
 <label x="-10.16" y="53.34" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="A2"/>
+<wire x1="81.28" y1="114.3" x2="78.74" y2="114.3" width="0.1524" layer="91"/>
+<label x="73.66" y="114.3" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="SBR" class="0">
 <segment>
@@ -3539,6 +3614,11 @@ http://www.xganon.com</description>
 <pinref part="SWTICH_LOC" gate="-2" pin="KL"/>
 <wire x1="-2.54" y1="63.5" x2="-5.08" y2="63.5" width="0.1524" layer="91"/>
 <label x="-10.16" y="63.5" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="A0"/>
+<wire x1="81.28" y1="119.38" x2="78.74" y2="119.38" width="0.1524" layer="91"/>
+<label x="73.66" y="119.38" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SBL" class="0">
@@ -3566,6 +3646,11 @@ http://www.xganon.com</description>
 <wire x1="-2.54" y1="30.48" x2="-5.08" y2="30.48" width="0.1524" layer="91"/>
 <label x="-10.16" y="30.48" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D3"/>
+<wire x1="114.3" y1="104.14" x2="116.84" y2="104.14" width="0.1524" layer="91"/>
+<label x="116.84" y="104.14" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="A5" class="0">
 <segment>
@@ -3586,6 +3671,11 @@ http://www.xganon.com</description>
 <wire x1="119.38" y1="-43.18" x2="129.54" y2="-43.18" width="0.1524" layer="91"/>
 <junction x="119.38" y="-43.18"/>
 <junction x="129.54" y="-43.18"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="A5"/>
+<wire x1="81.28" y1="106.68" x2="76.2" y2="106.68" width="0.1524" layer="91"/>
+<label x="73.66" y="106.68" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="A4" class="0">
@@ -3608,12 +3698,10 @@ http://www.xganon.com</description>
 <junction x="119.38" y="-33.02"/>
 <junction x="129.54" y="-33.02"/>
 </segment>
-</net>
-<net name="SLR" class="0">
 <segment>
-<pinref part="B1" gate="G$1" pin="*D5"/>
-<wire x1="86.36" y1="45.72" x2="81.28" y2="45.72" width="0.1524" layer="91"/>
-<label x="78.74" y="45.72" size="1.778" layer="95" xref="yes"/>
+<pinref part="U$1" gate="G$1" pin="A4"/>
+<wire x1="81.28" y1="109.22" x2="78.74" y2="109.22" width="0.1524" layer="91"/>
+<label x="73.66" y="109.22" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -3636,6 +3724,11 @@ http://www.xganon.com</description>
 <wire x1="86.36" y1="55.88" x2="83.82" y2="55.88" width="0.1524" layer="91"/>
 <label x="73.66" y="55.88" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D9"/>
+<wire x1="114.3" y1="119.38" x2="119.38" y2="119.38" width="0.1524" layer="91"/>
+<label x="116.84" y="119.38" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="PWM_R" class="0">
 <segment>
@@ -3650,6 +3743,11 @@ http://www.xganon.com</description>
 <pinref part="B1" gate="G$1" pin="*D10"/>
 <wire x1="86.36" y1="58.42" x2="83.82" y2="58.42" width="0.1524" layer="91"/>
 <label x="73.66" y="58.42" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="D10"/>
+<wire x1="114.3" y1="121.92" x2="116.84" y2="121.92" width="0.1524" layer="91"/>
+<label x="116.84" y="121.92" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="VIN" class="0">
@@ -3676,6 +3774,96 @@ http://www.xganon.com</description>
 <pinref part="_VIN" gate="1" pin="P"/>
 <wire x1="119.38" y1="-106.68" x2="109.22" y2="-106.68" width="0.1524" layer="91"/>
 <junction x="119.38" y="-106.68"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="RAW"/>
+<wire x1="81.28" y1="91.44" x2="78.74" y2="91.44" width="0.1524" layer="91"/>
+<label x="76.2" y="91.44" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="AREF" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="AREF"/>
+<wire x1="81.28" y1="121.92" x2="78.74" y2="121.92" width="0.1524" layer="91"/>
+<label x="71.12" y="121.92" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="B1" gate="G$1" pin="AREF"/>
+<wire x1="111.76" y1="63.5" x2="114.3" y2="63.5" width="0.1524" layer="91"/>
+<label x="111.76" y="63.5" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="A3" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="A3"/>
+<wire x1="81.28" y1="111.76" x2="78.74" y2="111.76" width="0.1524" layer="91"/>
+<label x="73.66" y="111.76" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$11" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="A6"/>
+<wire x1="81.28" y1="104.14" x2="78.74" y2="104.14" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$12" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="A7"/>
+<wire x1="81.28" y1="101.6" x2="78.74" y2="101.6" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RST" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="RST"/>
+<wire x1="81.28" y1="96.52" x2="78.74" y2="96.52" width="0.1524" layer="91"/>
+<label x="73.66" y="96.52" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="B1" gate="G$1" pin="RES"/>
+<wire x1="111.76" y1="53.34" x2="114.3" y2="53.34" width="0.1524" layer="91"/>
+<label x="114.3" y="53.34" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="TX" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="TX0"/>
+<wire x1="114.3" y1="91.44" x2="116.84" y2="91.44" width="0.1524" layer="91"/>
+<label x="116.84" y="91.44" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="B1" gate="G$1" pin="TX"/>
+<wire x1="86.36" y1="33.02" x2="83.82" y2="33.02" width="0.1524" layer="91"/>
+<label x="81.28" y="33.02" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="RX" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="RX1"/>
+<wire x1="114.3" y1="93.98" x2="116.84" y2="93.98" width="0.1524" layer="91"/>
+<label x="116.84" y="93.98" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="B1" gate="G$1" pin="RX"/>
+<wire x1="86.36" y1="30.48" x2="83.82" y2="30.48" width="0.1524" layer="91"/>
+<label x="81.28" y="30.48" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$21" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="RST1"/>
+<wire x1="114.3" y1="96.52" x2="116.84" y2="96.52" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="+3.3V" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="3.3V"/>
+<wire x1="81.28" y1="124.46" x2="78.74" y2="124.46" width="0.1524" layer="91"/>
+<label x="71.12" y="124.46" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="B1" gate="G$1" pin="3.3V"/>
+<wire x1="111.76" y1="60.96" x2="114.3" y2="60.96" width="0.1524" layer="91"/>
+<label x="111.76" y="60.96" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>

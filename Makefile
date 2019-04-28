@@ -1,4 +1,9 @@
 
+LIQUIDCRYSTAL=ino/Adafruit_LiquidCrystal.cpp \
+ino/Adafruit_LiquidCrystal.h \
+ino/utility/Adafruit_MCP23008.h \
+ino/utility/Adafruit_MCP23008.cpp
+
 INOMAKE_NORMAL_DEPS=ino/Makefile \
 ino/FOLD.cpp \
 ino/FOLD.h \
@@ -17,11 +22,13 @@ ino/control.cpp \
 ino/echo.cpp \
 ino/switch.cpp \
 ino/testoptions.h\
-ino/switch.h 
+ino/switch.h \
+$(LIQUIDCRYSTAL) 
+
 
 INOMAKE_SPECIAL_DEPS=ino \
-ino/Arduino-Makefile \
-/usr/share/arduino/libraries/Adafruit_MotorShield
+ino/Arduino-Makefile
+
 
 all: ino inomake
 
@@ -62,7 +69,7 @@ ino/Makefile: INO-Makefile | ino
 	cp INO-Makefile ino/Makefile
 
 ino/Arduino-Makefile: | ino
-	cd ino && git clone git@github.com:sudar/Arduino-Makefile.git
+	cd ino && git clone https://github.com/sudar/Arduino-Makefile.git
 
 ino/FOLD.cpp: FOLD/FOLD.ino | ino
 	cp FOLD/FOLD.ino ino/FOLD.cpp
@@ -118,8 +125,27 @@ ino/wiring.h: FOLD/wiring.h | ino
 ino/testoptions.h: FOLD/testoptions.h | ino
 	cp FOLD/testoptions.h ino/testoptions.h
 
-/usr/share/arduino/libraries/Adafruit_MotorShield: 
-	git clone git@github.com:adafruit/Adafruit_Motor_Shield_V2_Library.git /usr/share/arduino/libraries/Adafruit_MotorShield
+ino/utility: | ino
+	mkdir ino/utility
+
+libs:
+	mkdir libs
+
+libs/Adafruit_LiquidCrystal: | libs
+	rm -rf $@
+	git clone "https://github.com/adafruit/Adafruit_LiquidCrystal.git" $@
+
+ino/Adafruit_LiquidCrystal.cpp:  | ino libs/Adafruit_LiquidCrystal
+	cp libs/Adafruit_LiquidCrystal/Adafruit_LiquidCrystal.cpp $@
+
+ino/Adafruit_LiquidCrystal.h:  | ino libs/Adafruit_LiquidCrystal
+	cp libs/Adafruit_LiquidCrystal/Adafruit_LiquidCrystal.h $@
+
+ino/utility/Adafruit_MCP23008.cpp:  | ino ino/utility libs/Adafruit_LiquidCrystal
+	cp libs/Adafruit_LiquidCrystal/utility/Adafruit_MCP23008.cpp $@
+
+ino/utility/Adafruit_MCP23008.h:  | ino ino/utility libs/Adafruit_LiquidCrystal
+	cp libs/Adafruit_LiquidCrystal/utility/Adafruit_MCP23008.h $@
 
 inomake: $(INOMAKE_NORMAL_DEPS) | $(INOMAKE_SPECIAL_DEPS)
 	cd ino && make
@@ -129,6 +155,7 @@ upload: inomake
 
 purge: clean
 	rm -rf ino
+	rm -rf libs
 
 clean:
 	rm -rf gcctest/drive.*

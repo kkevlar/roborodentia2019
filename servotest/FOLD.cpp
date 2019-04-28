@@ -1,29 +1,55 @@
 
+#include <Arduino.h>
+#include <Wire.h>
 #include <Adafruit_MotorShield.h>
-#include <Servo.h>
 
-Adafruit_MotorShield AFMS_BOT(0x61); // Rightmost jumper closed
+Adafruit_MotorShield AFMS_BOT(0x61);
 
-Servo myservo;
+Adafruit_DCMotor *motor;
 
-void setup(void)
-{        
-	AFMS_BOT.begin();
-       
-    myservo.attach(SERVO_1,1000,2000);
-
-	delay(5000);
-
+void setup() 
+{
+	pinMode(2,INPUT_PULLUP);
+	pinMode(13,OUTPUT);
+	 AFMS_BOT.begin();
+    motor = AFMS_BOT.getMotor(1);
+    motor->run(RELEASE);
 }
 
-void loop()
+void set_speed(int16_t speed, int time)
 {
+    if (speed < 0)
+    {
+        speed = -speed;
+        motor->run(BACKWARD);
+    }
+    else if (speed > 0)
+    {
+        motor->run(FORWARD);
+    }
+    if(speed > 255)
+        speed = 255;
+    
+    if(time == 0 || speed == 0) //no ramp down
+    {
+        motor->setSpeed(speed);
+        if (speed == 0)
+            motor->run(RELEASE);
+        return;
+    }
+    // for (int i=0; i<speed; i++) 
+    // {
+    //     motor->setS(0x6peed(i);  
+    //     delay(time/speed);
+    // }
+    if (speed == 0)
+            motor->run(RELEASE);
+}
 
-	myservo.write(0);
-
-	delay (500);
-
-	myservo.write(180);
-
-	delay(500);
+void loop() 
+{
+	if(digitalRead(2))
+		set_speed(0,0);
+	else
+		set_speed(255,0);
 }
