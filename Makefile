@@ -17,6 +17,10 @@ ino/test.h \
 ino/wiring.h \
 ino/wheel.h \
 ino/wheel.cpp \
+ino/lcd.h \
+ino/lcd.cpp \
+ino/shoot.h \
+ino/shoot.cpp \
 ino/control.h \
 ino/control.cpp \
 ino/echo.cpp \
@@ -88,6 +92,18 @@ ino/wheel.h: FOLD/wheel.h | ino
 
 ino/wheel.cpp: FOLD/wheel.ino | ino
 	cp FOLD/wheel.ino ino/wheel.cpp
+
+ino/lcd.h: FOLD/lcd.h | ino
+	cp FOLD/lcd.h ino/lcd.h
+
+ino/lcd.cpp: FOLD/lcd.ino | ino
+	cp FOLD/lcd.ino ino/lcd.cpp
+
+ino/shoot.h: FOLD/shoot.h | ino
+	cp FOLD/shoot.h ino/shoot.h
+
+ino/shoot.cpp: FOLD/shoot.ino | ino
+	cp FOLD/shoot.ino ino/shoot.cpp
 
 ino/test.h: FOLD/test.h | ino
 	cp FOLD/test.h ino/test.h

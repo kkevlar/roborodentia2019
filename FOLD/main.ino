@@ -2,10 +2,11 @@
 
 void main_setup()
 {
-	// Serial.begin(9600);
 	switch_init();
 	drive_init();
-	echo_init();
+    echo_init();
+	shoot_init();
+    lcd_init();
 }
 
 /*

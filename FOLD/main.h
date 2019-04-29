@@ -5,8 +5,10 @@
 #include "testoptions.h"
 #include <Arduino.h>
 #include "drive.h"
+#include "shoot.h"
 #include "switch.h"
 #include "echo.h"
+#include "lcd.h"
 #include "control.h"
 
 void main_setup();

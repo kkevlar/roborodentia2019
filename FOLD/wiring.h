@@ -7,6 +7,10 @@
 #define SWITCH_COUNT_SIX
 // #define SWITCH_COUNT_EIGHT
 
+/* LCD? Pick one */
+#define LCD_ENABLED
+// #define LCD_DISABLED
+
 #define MOTOR_SHEILD_ADDRESS_WHEEL 0x61
 #define MOTOR_SHEILD_ADDRESS_SHOOT 0x60
 
