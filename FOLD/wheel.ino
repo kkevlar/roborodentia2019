@@ -1,7 +1,7 @@
 
 #include "wheel.h"
 
-Adafruit_MotorShield AFMS_BOT(ADDR_TOP); // Rightmost jumper closed
+Adafruit_MotorShield AFMS_BOT(MOTOR_SHEILD_ADDRESS_WHEEL); // Rightmost jumper closed
 
 uint8_t wheel_has_init = 0;
 Adafruit_DCMotor *fl;

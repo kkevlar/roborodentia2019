@@ -4,31 +4,67 @@
 
 void switch_init(void)
 {
-    pinMode(PIN_SWITCH_FRONT, INPUT_PULLUP);
-    pinMode(PIN_SWITCH_RIGHT_F, INPUT_PULLUP);
-    pinMode(PIN_SWITCH_RIGHT_B, INPUT_PULLUP);
-    pinMode(PIN_SWITCH_BACK, INPUT_PULLUP);
-    pinMode(PIN_SWITCH_LEFT_BACK, INPUT_PULLUP);
-    pinMode(PIN_SWITCH_LEFT_FRONT, INPUT_PULLUP);
+    #if defined(SWITCH_COUNT_FOUR) || \
+    defined(SWITCH_COUNT_SIX) ||\
+    defined(SWITCH_COUNT_EIGHT)
+        pinMode(PIN_SWITCH_FRONT_L, INPUT_PULLUP);
+        pinMode(PIN_SWITCH_BACK_L, INPUT_PULLUP);
+        pinMode(PIN_SWITCH_RIGHT_F, INPUT_PULLUP);
+        pinMode(PIN_SWITCH_LEFT_F, INPUT_PULLUP);
+    #else
+    #error "No valid switch configuration defined"
+    #endif
+
+    #if defined(SWITCH_COUNT_SIX) ||\
+    defined(SWITCH_COUNT_EIGHT)
+        pinMode(PIN_SWITCH_LEFT_B, INPUT_PULLUP);
+        pinMode(PIN_SWITCH_RIGHT_B, INPUT_PULLUP);
+    #endif
+
+    #ifdef SWITCH_COUNT_EIGHT
+        pinMode(PIN_SWITCH_FRONT_R, INPUT_PULLUP);
+        pinMode(PIN_SWITCH_BACK_R, INPUT_PULLUP);
+    #endif
 }
 
-int switch_simple_read(uint8_t switch_pin)
+int switch_test_all()
 {
-    if(switch_pin > 0)
-        return digitalRead(switch_pin);
-    else
-        return HIGH;
-}
+    int result;
 
-// int mass_switch_read()
-// {
-//     for(int i = 2; i <= 7; i++)
-//     {
-//         if(digitalRead(i) == LOW)
-//             return 1;
-//     }
-//     return 0;
-// }
+    result = -1;
+
+    #if defined(SWITCH_COUNT_FOUR) || \
+    defined(SWITCH_COUNT_SIX) ||\
+    defined(SWITCH_COUNT_EIGHT)
+        if(digitalRead(PIN_SWITCH_FRONT_L) == LOW)
+            result = PIN_SWITCH_FRONT_L;
+        if(digitalRead(PIN_SWITCH_BACK_L) == LOW)
+            result = PIN_SWITCH_BACK_L;
+        if(digitalRead(PIN_SWITCH_RIGHT_F) == LOW)
+            result = PIN_SWITCH_RIGHT_F;
+        if(digitalRead(PIN_SWITCH_LEFT_F) == LOW)
+            result = PIN_SWITCH_LEFT_F;
+    #else
+    #error "No valid switch configuration defined"
+    #endif
+
+    #if defined(SWITCH_COUNT_SIX) ||\
+    defined(SWITCH_COUNT_EIGHT)
+        if(digitalRead(PIN_SWITCH_LEFT_B) == LOW)
+            result = PIN_SWITCH_LEFT_B;
+        if(digitalRead(PIN_SWITCH_RIGHT_B) == LOW)
+            result = PIN_SWITCH_RIGHT_B;
+    #endif
+
+    #ifdef SWITCH_COUNT_EIGHT
+        if(digitalRead(PIN_SWITCH_FRONT_R) == LOW)
+            result = PIN_SWITCH_FRONT_R;
+        if(digitalRead(PIN_SWITCH_BACK_R) == LOW)
+            result = PIN_SWITCH_BACK_R;
+    #endif
+
+    return result;
+}
 
 // int test_switch_arbitrary(long breaktime, int pincount, int* pins)
 // {
