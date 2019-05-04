@@ -8,6 +8,7 @@
 #include "switch.h"
 #include "echo.h"
 #include "control.h"
+#include "lcd.h"
 
 void test_setup();
 void test_loop();

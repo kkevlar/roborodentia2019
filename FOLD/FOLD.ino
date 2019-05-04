@@ -3,11 +3,7 @@
 
 void setup()
 {
-	#if defined(TEST_DRIVE_STOP) || \
-		defined(TEST_SWITCH) ||\
-		defined(TEST_DRIVE_DIAG) ||\
-		defined(TEST_DRIVE_CARD) ||\
-		defined(TEST_ECHO)
+	#if defined(TEST_NO_GAME)
 		test_setup();
 	#elif defined(GAME_A)
 		main_setup();
@@ -18,11 +14,7 @@ void setup()
 
 void loop()
 {
-	#if defined(TEST_DRIVE_STOP) || \
-		defined(TEST_SWITCH) ||\
-		defined(TEST_DRIVE_DIAG) ||\
-		defined(TEST_DRIVE_CARD) ||\
-		defined(TEST_ECHO)
+	#if defined(TEST_NO_GAME)
 		test_loop();
 	#elif defined(GAME_A)
 		main_loop();

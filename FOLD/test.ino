@@ -2,10 +2,30 @@
 
 void test_setup()
 {
-	switch_init();
-	drive_init();
-	echo_init();
-	Serial.begin(9600);
+	#if defined(TEST_DRIVE_STOP)
+		drive_init();
+	#elif defined(TEST_DRIVE_DIAG)
+		drive_init();
+	#elif defined(TEST_DRIVE_CARD)
+		drive_init();
+	#elif defined(TEST_SWITCH)
+		switch_init();
+	#elif defined(TEST_ECHO)
+		echo_init();
+	#elif defined(TEST_LCD)
+		lcd_init();
+	#elif defined(GAME_A)
+		#error "Macro definition problem"
+	#endif
+
+	// switch_init();
+	// echo_init();
+	// Serial.begin(9600);
+}
+
+void lcd_test()
+{
+	lcd_hello_world();
 }
 
 void switch_test()
@@ -105,8 +125,10 @@ void test_loop()
 		switch_test();
 	#elif defined(TEST_ECHO)
 		echo_test();
+	#elif defined(TEST_LCD)
+		lcd_test();
 	#elif defined(GAME_A)
-		#warning "THIS IS NOT A DRILL"
+		#error "Macro definition problem"
 	#endif
 }
 

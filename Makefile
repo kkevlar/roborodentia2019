@@ -1,8 +1,4 @@
 
-LIQUIDCRYSTAL=ino/Adafruit_LiquidCrystal.cpp \
-ino/Adafruit_LiquidCrystal.h \
-ino/utility/Adafruit_MCP23008.h \
-ino/utility/Adafruit_MCP23008.cpp
 
 INOMAKE_NORMAL_DEPS=ino/Makefile \
 ino/FOLD.cpp \
@@ -26,8 +22,7 @@ ino/control.cpp \
 ino/echo.cpp \
 ino/switch.cpp \
 ino/testoptions.h\
-ino/switch.h \
-$(LIQUIDCRYSTAL) 
+ino/switch.h
 
 
 INOMAKE_SPECIAL_DEPS=ino \
@@ -143,25 +138,6 @@ ino/testoptions.h: FOLD/testoptions.h | ino
 
 ino/utility: | ino
 	mkdir ino/utility
-
-libs:
-	mkdir libs
-
-libs/Adafruit_LiquidCrystal: | libs
-	rm -rf $@
-	git clone "https://github.com/adafruit/Adafruit_LiquidCrystal.git" $@
-
-ino/Adafruit_LiquidCrystal.cpp:  | ino libs/Adafruit_LiquidCrystal
-	cp libs/Adafruit_LiquidCrystal/Adafruit_LiquidCrystal.cpp $@
-
-ino/Adafruit_LiquidCrystal.h:  | ino libs/Adafruit_LiquidCrystal
-	cp libs/Adafruit_LiquidCrystal/Adafruit_LiquidCrystal.h $@
-
-ino/utility/Adafruit_MCP23008.cpp:  | ino ino/utility libs/Adafruit_LiquidCrystal
-	cp libs/Adafruit_LiquidCrystal/utility/Adafruit_MCP23008.cpp $@
-
-ino/utility/Adafruit_MCP23008.h:  | ino ino/utility libs/Adafruit_LiquidCrystal
-	cp libs/Adafruit_LiquidCrystal/utility/Adafruit_MCP23008.h $@
 
 inomake: $(INOMAKE_NORMAL_DEPS) | $(INOMAKE_SPECIAL_DEPS)
 	cd ino && make

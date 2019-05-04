@@ -11,6 +11,10 @@
 #define LCD_ENABLED
 // #define LCD_DISABLED
 
+#if defined(TEST_LCD) && !defined(LCD_ENABLED)
+	#error "Testlcd enabled but lcd disabled"
+#endif
+
 #define MOTOR_SHEILD_ADDRESS_WHEEL 0x61
 #define MOTOR_SHEILD_ADDRESS_SHOOT 0x60
 
