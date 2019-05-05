@@ -163,7 +163,7 @@ void echo_test_until(
 
 
 
-
+/*
 void position_for_collection(float targ)
 {
     struct p_control_result result;
@@ -209,8 +209,8 @@ void position_for_collection(float targ)
         if(result.end_condition_count > 5)
             break;
     }
-}
-
+}*/
+/*
 void bigtest()
 {
     drive_vector_t vec;
@@ -237,42 +237,168 @@ void bigtest()
     go(vec);
     delay(100);
     echo_test_until(PIN_ULTRASONIC_ECHO_LEFT, 3000, 0, 5);
+}*/
+
+int16_t direction_to_degrees(direction_t dir)
+{
+    if(dir == DIRECTION_ID_FRONT)
+        return DEGREES_FRONT;
+    else if(dir == DIRECTION_ID_BACK)
+        return DEGREES_BACK;
+    else if(dir == DIRECTION_ID_LEFT)
+        return DEGREES_LEFT;
+    else if(dir == DIRECTION_ID_RIGHT)
+        return DEGREES_RIGHT;
+
+    return 0;
+}
+
+pin_t direction_to_echo_pin(direction_t dir)
+{
+    if(dir == DIRECTION_ID_FRONT)
+        return PIN_ULTRASONIC_ECHO_FRONT;
+    else if(dir == DIRECTION_ID_BACK)
+        return PIN_ULTRASONIC_ECHO_BACK;
+    else if(dir == DIRECTION_ID_LEFT)
+        return PIN_ULTRASONIC_ECHO_LEFT;
+    else if(dir == DIRECTION_ID_RIGHT)
+        return PIN_ULTRASONIC_ECHO_RIGHT;
+
+    return 0;
+}
+
+
+void position_for_collection(direction_t dir_wall, direction_t dir_target, float mm_target)
+{
+    struct p_control_result result_wall;
+    struct p_control_result result_target;
+
+    struct p_control_args args_wall;
+    struct p_control_args args_target;
+
+    drive_vector_t vec_wall;
+    drive_vector_t vec_target;
+    drive_vector_t vec_result;
+
+    vec_wall.degrees = direction_to_degrees(dir_wall);
+    vec_target.degrees = direction_to_degrees(dir_target);
+
+    control_clear_result(&result_wall);
+    control_clear_result(&result_target);
+
+    args_wall.pin_ultrasonic = direction_to_echo_pin(dir_wall);
+    args_wall.pk = 2.0f;
+    args_wall.max_speed = 255;
+    args_wall.abs_speed_dead_zone = 0;
+    args_wall.abs_speed_boost_zone = 0;
+    args_wall.echo_data_buf_count = 1;
+
+    args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
+    args_target.pk = 2.0f;
+    args_target.max_speed = 255;
+    args_target.abs_speed_dead_zone = 0;
+    args_target.abs_speed_boost_zone = 0;
+    args_target.echo_data_buf_count = 1;
+
+    while(1)
+    {
+        args_wall.mm_target = 60;
+        args_wall.mm_accuracy = 10;
+        args_target.mm_target = mm_target;
+        args_target.mm_accuracy = 10;
+
+        delay(10);
+        p_control_non_block(&result_wall,&args_wall);
+        vec_wall.speed = (result_wall.result_speed);
+        delay(10);
+        p_control_non_block(&result_target,&args_target);
+        vec_target.speed = (result_target.result_speed);
+        vec_result = drive_combine_vecs(vec_wall, vec_target, 255);
+
+        vec_result.speed = (int16_t) (control_treat_speed(
+            (float) vec_result.speed,
+            255.0f,
+            10.0f,
+            60.0f
+            ));
+
+        go(vec_result);
+
+        if(result_target.end_condition_count > 2 && 
+            (result_wall.end_condition_count > 2 || result_wall.echo_avg < 150))
+            break;
+    }
+}
+
+void roomba(direction_t dir_wall)
+{
+    drive_vector_t vec_wall;
+
+    vec_wall.degrees = direction_to_degrees(dir_wall);
+    vec_wall.speed = 100;
+
+    go(vec_wall);
+
+    while(switch_test_up(direction_to_echo_pin(dir_wall)))
+    {
+        delay(5);
+    }
+}
+
+void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target)
+{
+    struct p_control_result result_target;
+    struct p_control_args args_target;
+
+    drive_vector_t vec_wall;
+    drive_vector_t vec_target;
+    drive_vector_t vec_result;
+
+    vec_wall.degrees = direction_to_degrees(dir_wall);
+    vec_target.degrees = direction_to_degrees(dir_target);
+
+    control_clear_result(&result_target);
+
+    vec_wall.speed = 70;
+
+    args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
+    args_target.pk = 4.0f;
+    args_target.max_speed = 150;
+    args_target.abs_speed_dead_zone = 0;
+    args_target.abs_speed_boost_zone = 0;
+    args_target.echo_data_buf_count = 1;
+    args_target.mm_accuracy = 10;
+    args_target.mm_target = mm_target;
+
+    while(1)
+    {
+        delay(15);
+        p_control_non_block(&result_target,&args_target);
+        vec_result = drive_combine_vecs(vec_target, vec_wall, 255);
+
+        vec_result.speed = (int16_t) (control_treat_speed(
+            (float) vec_result.speed,
+            255.0f,
+            10.0f,
+            60.0f
+            ));
+
+        go(vec_result);
+
+        if(result_target.end_condition_count > 2)
+            break;
+    }
 }
 
 void main_loop()
 {
     go_stop();
 
+    position_for_collection(DIRECTION_ID_RIGHT, DIRECTION_ID_BACK, 500);
+    roomba(DIRECTION_ID_RIGHT);
+    do_collection(DIRECTION_ID_RIGHT, DIRECTION_ID_BACK, 400);
 
-    control_LB_2D_ez(200,200);
-    go_stop();
 
-    drive_vector_t vec;
-
-    vec.degrees = 180;
-    vec.speed = 80;
-
-    go(vec);
-    delay(1500);
-    go_stop();
-
-    control_LB_2D_ez(400,400);
-    go_stop();
-
-    control_LB_2D_ez(600,1500);
-    go_stop();
-
-    control_LB_2D_ez(400,200);
-    go_stop();
-
-    control_LB_2D_ez(120,120);
-    go_stop();
-
-    control_LB_2D_ez(500,500);
-    go_stop();
-
-    control_LB_2D_ez(800,150);
-    go_stop();
 }
 
 

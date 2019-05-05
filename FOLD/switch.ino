@@ -27,9 +27,9 @@ void switch_init(void)
     #endif
 }
 
-int switch_test_all()
+pin_t switch_test_all()
 {
-    int result;
+    pin_t result;
 
     result = -1;
 
@@ -65,6 +65,18 @@ int switch_test_all()
 
     return result;
 }
+
+bool switch_test_up(pin_t pin)
+{
+    return digitalRead(pin) != LOW;
+}
+
+bool switch_test_down(pin_t pin)
+{
+    return digitalRead(pin) == LOW;
+}
+
+
 
 // int test_switch_arbitrary(long breaktime, int pincount, int* pins)
 // {

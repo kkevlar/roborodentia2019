@@ -2,6 +2,8 @@
 #ifndef WIRING_H
 #define WIRING_H
 
+#include <Arduino.h>
+
 /* Switch Type: Pick one */
 // #define SWITCH_COUNT_FOUR
 #define SWITCH_COUNT_SIX
@@ -55,5 +57,18 @@ defined(SWITCH_COUNT_EIGHT)
 	#define PIN_SWITCH_FRONT_R A1
 	#define PIN_SWITCH_BACK_R A0
 #endif
+
+#define DIRECTION_ID_FRONT 3
+#define DIRECTION_ID_BACK 4
+#define DIRECTION_ID_LEFT 5
+#define DIRECTION_ID_RIGHT 6
+
+#define DEGREES_FRONT 90
+#define DEGREES_BACK 270
+#define DEGREES_LEFT 180
+#define DEGREES_RIGHT 0
+
+typedef uint8_t direction_t;
+typedef uint8_t pin_t;
 
 #endif
