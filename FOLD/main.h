@@ -10,6 +10,8 @@
 #include "echo.h"
 #include "lcd.h"
 #include "control.h"
+#include "aim.h"
+#include "collect.h"
 
 void main_setup();
 void main_loop();

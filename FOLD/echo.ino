@@ -13,6 +13,20 @@ void echo_init()
     #endif
 }
 
+pin_t direction_to_echo_pin(direction_t dir)
+{
+    if(dir == DIRECTION_ID_FRONT)
+        return PIN_ULTRASONIC_ECHO_FRONT;
+    else if(dir == DIRECTION_ID_BACK)
+        return PIN_ULTRASONIC_ECHO_BACK;
+    else if(dir == DIRECTION_ID_LEFT)
+        return PIN_ULTRASONIC_ECHO_LEFT;
+    else if(dir == DIRECTION_ID_RIGHT)
+        return PIN_ULTRASONIC_ECHO_RIGHT;
+
+    return 0;
+}
+
 float echo_test_mm(uint8_t pin)
 {
 	long duration;
@@ -33,9 +47,10 @@ float echo_test_mm(uint8_t pin)
     return myout;
 }
 
+#ifdef TEST_ECHO
 void echo_print_all()
 {
-    #ifdef TEST_ECHO
+   
         char buf[1024];
         int offset = 0;
 
@@ -49,6 +64,5 @@ void echo_print_all()
         delay(10);
 
         Serial.println(buf);
-    #endif
 }
-
+#endif

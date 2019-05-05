@@ -6,7 +6,7 @@
 #include "wiring.h"
 #include "wheel.h"
 
-#define ECHO_DATAS_MAX_BUF 50
+#define ECHO_DATAS_MAX_BUF 10
 
 struct p_control_result
 {

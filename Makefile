@@ -19,6 +19,10 @@ ino/shoot.h \
 ino/shoot.cpp \
 ino/control.h \
 ino/control.cpp \
+ino/aim.h \
+ino/aim.cpp \
+ino/collect.h \
+ino/collect.cpp \
 ino/echo.cpp \
 ino/switch.cpp \
 ino/testoptions.h\
@@ -123,6 +127,18 @@ ino/control.h: FOLD/control.h | ino
 
 ino/control.cpp: FOLD/control.ino | ino
 	cp FOLD/control.ino ino/control.cpp
+
+ino/aim.h: FOLD/aim.h | ino
+	cp FOLD/aim.h ino/aim.h
+
+ino/aim.cpp: FOLD/aim.ino | ino
+	cp FOLD/aim.ino ino/aim.cpp
+
+ino/collect.h: FOLD/collect.h | ino
+	cp FOLD/collect.h ino/collect.h
+
+ino/collect.cpp: FOLD/collect.ino | ino
+	cp FOLD/collect.ino ino/collect.cpp
 
 ino/switch.h: FOLD/switch.h | ino
 	cp FOLD/switch.h ino/switch.h

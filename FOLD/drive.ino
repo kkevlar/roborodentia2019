@@ -5,6 +5,20 @@ void drive_init(void)
     wheel_init();
 }
 
+int16_t direction_to_degrees(direction_t dir)
+{
+    if(dir == DIRECTION_ID_FRONT)
+        return DEGREES_FRONT;
+    else if(dir == DIRECTION_ID_BACK)
+        return DEGREES_BACK;
+    else if(dir == DIRECTION_ID_LEFT)
+        return DEGREES_LEFT;
+    else if(dir == DIRECTION_ID_RIGHT)
+        return DEGREES_RIGHT;
+
+    return 0;
+}
+
 int16_t drive_easy_atan(int16_t fb, int16_t rl)
 {
     uint16_t deg;
@@ -141,7 +155,7 @@ void go_front()
 {
     drive_vector_t vec;
 
-    vec.degrees = 0;
+    vec.degrees = direction_to_degrees(DIRECTION_ID_FRONT);
     vec.speed = 255;
 
     go(vec);
@@ -151,7 +165,7 @@ void go_back()
 {
     drive_vector_t vec;
 
-    vec.degrees = 180;
+    vec.degrees = direction_to_degrees(DIRECTION_ID_BACK);
     vec.speed = 255;
 
     go(vec);
@@ -161,7 +175,7 @@ void go_right()
 {
     drive_vector_t vec;
 
-    vec.degrees = 270;
+    vec.degrees = direction_to_degrees(DIRECTION_ID_RIGHT);
     vec.speed = 255;
 
     go(vec);
@@ -171,7 +185,7 @@ void go_left()
 {
     drive_vector_t vec;
 
-    vec.degrees = 90;
+    vec.degrees = direction_to_degrees(DIRECTION_ID_LEFT);
     vec.speed = 255;
 
     go(vec);

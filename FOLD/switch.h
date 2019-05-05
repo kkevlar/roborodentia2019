@@ -8,7 +8,7 @@
 
 void switch_init(void);
 pin_t switch_test_all();
-bool switch_test_up(pin_t pin);
-bool switch_test_down(pin_t pin);
+bool switch_test_up(direction_t dir);
+bool switch_test_down(direction_t dir);
 
 #endif
