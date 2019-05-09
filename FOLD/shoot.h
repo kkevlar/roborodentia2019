@@ -4,6 +4,7 @@
 
 #include "testoptions.h"
 #include <Wire.h>
+#include <Servo.h>
 #include <Adafruit_MotorShield.h>
 #include "wiring.h"
 

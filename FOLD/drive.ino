@@ -145,10 +145,10 @@ void go(drive_vector_t vec)
     speed_bl *= scale;
     speed_br *= scale;
 
-    set_speed(WHEEL_FL, OFFSET_FL * speed_fl, 0);
-    set_speed(WHEEL_FR, OFFSET_FR * speed_fr, 0);
-    set_speed(WHEEL_BL, OFFSET_BL * speed_bl, 0);
-    set_speed(WHEEL_BR, OFFSET_BR * speed_br, 0);
+    set_speed(WHEEL_FL, MOTOR_MULTIPLIER_FL * speed_fl, 0);
+    set_speed(WHEEL_FR, MOTOR_MULTIPLIER_FR * speed_fr, 0);
+    set_speed(WHEEL_BL, MOTOR_MULTIPLIER_BL * speed_bl, 0);
+    set_speed(WHEEL_BR, MOTOR_MULTIPLIER_BR * speed_br, 0);
 }
 
 void go_front()

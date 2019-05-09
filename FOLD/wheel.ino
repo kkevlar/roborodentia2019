@@ -15,10 +15,10 @@ void wheel_init(void)
     {
         AFMS_MOTOR.begin();  // create with the default frequency 1.6KHz
        
-        fl = AFMS_MOTOR.getMotor(BOT_PORT_FL);
-        fr = AFMS_MOTOR.getMotor(BOT_PORT_FR);
-        bl = AFMS_MOTOR.getMotor(BOT_PORT_BL);
-        br = AFMS_MOTOR.getMotor(BOT_PORT_BR);
+        fl = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_FL);
+        fr = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_FR);
+        bl = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_BL);
+        br = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_BR);
         
         fl->run(RELEASE);
         fr->run(RELEASE);

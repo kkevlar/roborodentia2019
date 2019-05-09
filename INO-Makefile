@@ -1,5 +1,5 @@
 
-ARDUINO_LIBS = Wire Adafruit_MotorShield LiquidCrystal_I2C
+ARDUINO_LIBS = Wire Adafruit_MotorShield LiquidCrystal_I2C Servo
 BOARD_TAG = uno
 BOARDS_TXT=/usr/share/arduino/hardware/arduino/boards.txt
 PROJECT_DIR = .
