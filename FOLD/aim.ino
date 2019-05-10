@@ -85,6 +85,119 @@ aim_location_t aim_select_location()
 }
 
 
+void aim_position_pre_roomba(direction_t dir_target, float mm_target)
+{
+    struct p_control_result result_wall;
+    struct p_control_result result_target;
+
+    struct p_control_args args_wall;
+    struct p_control_args args_target;
+
+    drive_vector_t vec_wall;
+    drive_vector_t vec_target;
+    drive_vector_t vec_result;
+
+    vec_wall.degrees = direction_to_degrees(DIRECTION_ID_FRONT);
+    vec_target.degrees = direction_to_degrees(dir_target);
+
+    control_clear_result(&result_wall);
+    control_clear_result(&result_target);
+
+    args_wall.pin_ultrasonic = direction_to_echo_pin(DIRECTION_ID_FRONT);
+    args_wall.pk = AIM_PRE_WALL_P_CONSTANT;
+    args_wall.max_speed = 255;
+    args_wall.abs_speed_dead_zone = 0;
+    args_wall.abs_speed_boost_zone = 0;
+    args_wall.echo_data_buf_count = 1;
+
+    args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
+    args_target.pk = AIM_PRE_TARGET_P_CONSTANT;
+    args_target.max_speed = 255;
+    args_target.abs_speed_dead_zone = 0;
+    args_target.abs_speed_boost_zone = 0;
+    args_target.echo_data_buf_count = 1;
+
+    while(1)
+    {
+        args_wall.mm_target = AIM_PRE_DESIRED_WALL_DIST_MM;
+        args_wall.mm_accuracy = AIM_PRE_MM_ACCURACY;
+        args_target.mm_target = mm_target;
+        args_target.mm_accuracy = AIM_PRE_MM_ACCURACY;
+
+        delay(AIM_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
+        p_control_non_block(&result_wall,&args_wall);
+        vec_wall.speed = (result_wall.result_speed);
+        delay(AIM_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
+        p_control_non_block(&result_target,&args_target);
+        vec_target.speed = (result_target.result_speed);
+        vec_wall.speed = (result_wall.result_speed);
+        vec_result = drive_combine_vecs(vec_wall, vec_target, 255);
+
+        vec_result.speed = (int16_t) (control_treat_speed(
+            (float) vec_result.speed,
+            255.0f,
+            10.0f,
+            60.0f
+            ));
+
+        go(vec_result);
+
+        if(result_target.end_condition_count > 2 && 
+            (result_wall.end_condition_count > 2 || result_wall.echo_avg < AIM_PRE_EARLY_BREAK_WALL_DIST))
+            break;
+    }
+}
+
+void aim_far_left()
+{
+	aim_position_pre_roomba(
+		DIRECTION_ID_RIGHT,
+		FIELD_AIM_PRE_CENTER_FROM_RIGHT);
+}
+
+void aim_center_left()
+{
+	aim_position_pre_roomba(
+		DIRECTION_ID_RIGHT,
+		FIELD_AIM_PRE_CENTER_FROM_RIGHT);
+}
+
+void aim_center()
+{
+	aim_position_pre_roomba(
+		DIRECTION_ID_RIGHT,
+		FIELD_AIM_PRE_CENTER_FROM_RIGHT);
+}
+
+void aim_center_right()
+{
+	aim_position_pre_roomba(
+		DIRECTION_ID_RIGHT,
+		FIELD_AIM_PRE_CENTER_FROM_RIGHT);
+}
+
+void aim_far_right()
+{
+	aim_position_pre_roomba(
+		DIRECTION_ID_RIGHT,
+		FIELD_AIM_PRE_CENTER_FROM_RIGHT);
+}
+
+void aim(aim_location_t loc)
+{
+	if(AIM_LOCATION_ID_FAR_LEFT == loc)
+		aim_far_left();
+	else if(AIM_LOCATION_ID_CENTER_LEFT == loc)
+		aim_center_left();
+	else if(AIM_LOCATION_ID_CENTER == loc)
+		aim_center();
+	else if(AIM_LOCATION_ID_CENTER_RIGHT == loc)
+		aim_center_right();
+	else if(AIM_LOCATION_ID_FAR_RIGHT == loc)
+		aim_far_right();
+}
+
+
 
 
 

@@ -40,6 +40,7 @@ gcctest/control.h\
 gcctest/collect.h\
 gcctest/pretendarduino.h\
 gcctest/aim.h\
+gcctest/shoot.h
 
 all: ino inomake test
 
@@ -67,8 +68,11 @@ gcctest/control.h:
 gcctest/collect.h: 
 	touch $@
 
+gcctest/shoot.h: 
+	touch $@
+
 gcctest/aim.c: FOLD/aim.ino
-	cat $< | sed -r 's;#include "aim.h";#include "pretendarduino.h";' | sed 's;om(";fake(";' > $@
+	cat $< | head -n 86 | sed -r 's;#include "aim.h";#include "pretendarduino.h";' | sed 's;om(";fake(";' > $@
 
 gcctest/wiring.h: FOLD/wiring.h
 	cat $< | sed -r 's;#ifndef WIRING_H;#include "pretendarduino.h"\n#ifndef WIRING_H;' > $@

@@ -65,7 +65,7 @@ void position_for_collection(direction_t dir_wall, direction_t dir_target, float
         go(vec_result);
 
         if(result_target.end_condition_count > 2 && 
-            (result_wall.end_condition_count > 2 || result_wall.echo_avg < 150))
+            (result_wall.end_condition_count > 2 || result_wall.echo_avg < COLLECT_PRE_EARLY_BREAK_WALL_DIST))
             break;
     }
 }
