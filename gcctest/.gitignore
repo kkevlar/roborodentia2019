@@ -1,5 +1,10 @@
 *.o
-drive.*
 gcctest
 wiring.h
 testoptions.h
+aim.h
+collect.h
+control.h
+aim.c
+
+

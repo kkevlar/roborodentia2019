@@ -32,38 +32,49 @@ ino/switch.h
 INOMAKE_SPECIAL_DEPS=ino \
 ino/Arduino-Makefile
 
+GCCFLAGS=-Wall -Werror -g -O0
 
-all: ino inomake
+GCCTESTDEPS=gcctest/wiring.h\
+gcctest/testoptions.h\
+gcctest/control.h\
+gcctest/collect.h\
+gcctest/pretendarduino.h\
+gcctest/aim.h\
+
+all: ino inomake test
 
 test: gcctest/gcctest
 	cp gcctest/gcctest test
 
-gcctest/gcctest: gcctest/drive.o gcctest/fakewheel.o gcctest/gcctest.o gcctest/cpTime.o
-	g++ gcctest/drive.o gcctest/fakewheel.o gcctest/gcctest.o gcctest/cpTime.o -lm -o gcctest/gcctest
+gcctest/gcctest: gcctest/aim.o gcctest/pretendarduino.o gcctest/testaim.o
+	gcc $(GCCFLAGS) $^ -lm -o $@
 
-gcctest/gcctest.o: gcctest/gcctest.cpp
-	g++ -c gcctest/gcctest.cpp -o gcctest/gcctest.o
+gcctest/aim.o: gcctest/aim.c $(GCCTESTDEPS)
+	gcc $(GCCFLAGS) -c $< -o $@
 
-gcctest/fakewheel.o: gcctest/fakewheel.cpp
-	g++ -c gcctest/fakewheel.cpp -o gcctest/fakewheel.o
+gcctest/testaim.o: gcctest/testaim.c $(GCCTESTDEPS)
+	gcc $(GCCFLAGS) -c $< -o $@
 
-gcctest/drive.o: gcctest/drive.cpp gcctest/drive.h gcctest/wiring.h gcctest/testoptions.h gcctest/cpTime.h
-	g++ -c gcctest/drive.cpp -o gcctest/drive.o
+gcctest/pretendarduino.o: gcctest/pretendarduino.c $(GCCTESTDEPS)
+	gcc $(GCCFLAGS) -c $< -o $@
 
-gcctest/cpTime.o: gcctest/cpTime.cpp gcctest/cpTime.h
-	g++ -c gcctest/cpTime.cpp -o gcctest/cpTime.o
+gcctest/testoptions.h: 
+	touch $@
 
-gcctest/drive.h: FOLD/drive.h
-	cat FOLD/drive.h | sed -r 's;#include "wheel.h";#include "fakewheel.h"\n#include <math.h>;' > gcctest/drive.h
+gcctest/control.h: 
+	touch $@
+
+gcctest/collect.h: 
+	touch $@
+
+gcctest/aim.c: FOLD/aim.ino
+	cat $< | sed -r 's;#include "aim.h";#include "pretendarduino.h";' | sed 's;om(";fake(";' > $@
 
 gcctest/wiring.h: FOLD/wiring.h
-	cp FOLD/wiring.h gcctest/wiring.h
+	cat $< | sed -r 's;#ifndef WIRING_H;#include "pretendarduino.h"\n#ifndef WIRING_H;' > $@
 
-gcctest/testoptions.h: FOLD/testoptions.h
-	cp FOLD/testoptions.h gcctest/testoptions.h
-
-gcctest/drive.cpp: FOLD/drive.ino
-	cp FOLD/drive.ino gcctest/drive.cpp
+gcctest/aim.h: FOLD/aim.h
+	cp $< $@
 
 ino:
 	mkdir -p ino
