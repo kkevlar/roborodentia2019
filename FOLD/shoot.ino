@@ -25,6 +25,36 @@ void shoot_init(void)
     indexer->run(RELEASE);
     conveyor_left->run(RELEASE);
     conveyor_right->run(RELEASE);
+
+
+    flywheel_left.write(180);
+    flywheel_right.write(180);
+
+    delay(2000);
+
+    flywheel_left.write(0);
+    flywheel_right.write(0);
+
+    delay(2000);
+
+    flywheel_left.write(0);
+    flywheel_right.write(90);
+
+
+    // delay(100);
+
+    //  flywheel_left.write(90);
+    // flywheel_right.write(90);
+
+    // delay(100);
+
+    //  flywheel_left.write(160);
+    // flywheel_right.write(160);
+
+    // delay(2000);
+
+    //  flywheel_left.write(90);
+    // flywheel_right.write(90);
 }
 
 void shoot_set_speed(Adafruit_DCMotor* motor, int16_t speed)

@@ -9,6 +9,7 @@
 #include "echo.h"
 #include "control.h"
 #include "lcd.h"
+#include "shoot.h"
 
 void test_setup();
 void test_loop();

@@ -24,7 +24,42 @@ void lcd_hello_world(void)
 	lcd.print( millis() / 100);
 
     #endif
-	
+}
+
+void lcd_print_top(char* woo)
+{
+    #ifdef LCD_ENABLED
+
+    char buf[17];
+
+    snprintf(
+    	buf,
+    	17,
+    	"%s                 ",
+    	woo);
+
+	lcd.setCursor(0,0);
+	lcd.print(buf);
+
+	#endif
+}
+
+void lcd_print_bot(char* woo)
+{
+    #ifdef LCD_ENABLED
+
+    char buf[17];
+
+    snprintf(
+    	buf,
+    	17,
+    	"%s                 ",
+    	woo);
+
+	lcd.setCursor(0,1);
+	lcd.print(buf);
+
+	#endif
 }
 
 

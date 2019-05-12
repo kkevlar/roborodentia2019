@@ -6,13 +6,25 @@ void test_setup()
 		drive_init();
 	#elif defined(TEST_DRIVE_DIAG)
 		drive_init();
+		lcd_init();
+
 	#elif defined(TEST_DRIVE_CARD)
+		lcd_init();
 		drive_init();
+
 	#elif defined(TEST_SWITCH)
 		switch_init();
 	#elif defined(TEST_ECHO)
+		lcd_init();
 		echo_init();
 	#elif defined(TEST_LCD)
+		lcd_init();
+	#elif defined(TEST_FLYWHEEL)
+		shoot_init();	
+		lcd_init();
+	#elif defined(TEST_PCONTROL)
+		echo_init();	
+		drive_init();
 		lcd_init();
 	#elif defined(GAME_A)
 		#error "Macro definition problem"
@@ -49,7 +61,7 @@ void switch_test()
 void diag_test()
 {
 	drive_vector_t vec;
-	vec.speed = 150;
+	vec.speed = 255;
 
 	for(int i = 0; i < 4; i++)
 	{
@@ -62,18 +74,34 @@ void diag_test()
 	delay(5000);
 }
 
+char* deg_to_str(int n)
+{
+	if(n == DEGREES_FRONT)
+		return "Front";
+	if(n == DEGREES_BACK)
+		return "Back";
+	if(n == DEGREES_LEFT)
+		return "Left";
+	if(n == DEGREES_RIGHT)
+		return "Right";
+}
+
 void card_test()
 {
 	drive_vector_t vec;
-	vec.speed = 150;
+	vec.speed = 255;
 
 	// Serial.println("immacard");
+	lcd_print_top("Testing Cardinal");
+
 	for(int i = 0; i < 4; i++)
 	{
 		vec.degrees = 90*i;
 		go(vec);
+		lcd_print_bot(vec.degrees);
 		delay(500);
 		go_stop();
+		lcd_print_bot("Stop!");
 		delay(500);
 	}
 	delay(1000);
@@ -90,27 +118,130 @@ void echo_test()
 	int16_t i_back = -1;
 	int16_t i_left = -1;
 	int16_t i_right = -1;
+	int i = 0;
 
 	go_stop();
 
-	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	while(true)
+	{
+
+		i++;
+
+	f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
 	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
-	f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
+	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
 	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
 
-	i_front = f_front;
-	i_back = f_back;
-	i_left = f_left;
-	i_right = f_right;
+	i_front = ((int16_t )f_front);
+	// i_back = f_back;
+	// i_left = f_left;
+	// i_right = f_right;
 
-	snprintf(buf, 128,"F:%5d B:%5d L:%5d R:%5d",
-		i_front,
-		i_back,
-		i_left,
-		i_right
-		);
-	Serial.println(buf);
-	delay(500);
+	sprintf(buf,"FRONT: #%d", i);
+	lcd_print_top(buf);
+	sprintf(buf, "%-6i", i_front);
+	lcd_print_bot(buf);
+
+	
+	delay(100);
+	}
+}
+
+void flywheel_test()
+{
+
+	shoot_flywheel_left_stop();
+	lcd_print_top("Im gonna shoot          ");
+	delay(2000); 
+	shoot_flywheel_left_start();
+	lcd_print_top("WHeeeeee                ");
+	delay(2000);
+	shoot_flywheel_left_stop();
+	lcd_print_top("resting                 ");
+	delay(4000);
+
+
+}
+
+void pcontrol_test_print_update(float curr, float target)
+{
+	char buf[32];
+	int i_curr;
+	int i_target;
+
+
+	i_curr = curr;
+	i_target = target;
+
+	snprintf(buf, 32, "%-4d -> %-4d", i_curr, i_target);
+
+	lcd_print_bot(buf);
+}
+
+void pcontrol_test_helper(float mm_target)
+{
+
+	direction_t dir_target = DIRECTION_ID_FRONT;
+	direction_t dir_wall = DIRECTION_ID_LEFT;
+
+	struct p_control_result result_target;
+	struct p_control_args args_target;
+
+	drive_vector_t vec_wall;
+	drive_vector_t vec_target;
+	drive_vector_t vec_result;
+
+
+	vec_wall.degrees = direction_to_degrees(dir_wall);
+	vec_target.degrees = direction_to_degrees(dir_target);
+
+	control_clear_result(&result_target);
+
+	vec_wall.speed = 70;
+
+	args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
+	args_target.pk = 1.5f;
+	args_target.max_speed = 255;
+	args_target.abs_speed_dead_zone = 0;
+	args_target.abs_speed_boost_zone = 0;
+	args_target.echo_data_buf_count = 1;
+	args_target.mm_accuracy = 10;
+	args_target.mm_target = mm_target;
+
+	while(1)
+	{
+		delay(15);
+		p_control_non_block(&result_target,&args_target);
+
+		vec_target.speed = result_target.result_speed;
+
+		vec_result = drive_combine_vecs(vec_target, vec_wall, 255);
+
+		vec_result.speed = (int16_t) (control_treat_speed(
+			(float) vec_result.speed,
+			COLLECT_DO_MAX_NET_SPEED,
+			10.0f,
+			60.0f
+			));
+
+		pcontrol_test_print_update(result_target.echo_avg, args_target.mm_target);
+
+		go(vec_result);
+
+		if(result_target.end_condition_count > 2)
+			break;
+	}
+	
+}
+
+
+void pcontrol_test()
+{
+	lcd_print_top("Hug left wall / P control front");
+	pcontrol_test_helper(150);
+	pcontrol_test_helper(600);
+	pcontrol_test_helper(250);
+	pcontrol_test_helper(800);
 }
 
 void test_loop()
@@ -127,6 +258,10 @@ void test_loop()
 		echo_test();
 	#elif defined(TEST_LCD)
 		lcd_test();
+	#elif defined(TEST_FLYWHEEL)
+		flywheel_test();
+	#elif defined(TEST_PCONTROL)
+		pcontrol_test();
 	#elif defined(GAME_A)
 		#error "Macro definition problem"
 	#endif
