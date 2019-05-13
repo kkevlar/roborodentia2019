@@ -81,13 +81,13 @@ bool switch_test_down(direction_t dir)
     defined(SWITCH_COUNT_SIX) ||\
     defined(SWITCH_COUNT_EIGHT)
         if(dir == DIRECTION_ID_FRONT)
-            temp &= digitalRead(PIN_SWITCH_FRONT_L) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_FRONT_L) == LOW);
         else if(dir == DIRECTION_ID_BACK)
-            temp &= digitalRead(PIN_SWITCH_BACK_L) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_BACK_L) == LOW);
         else if(dir == DIRECTION_ID_LEFT)
-            temp &= digitalRead(PIN_SWITCH_LEFT_F) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_LEFT_F) == LOW);
         else if(dir == DIRECTION_ID_RIGHT)
-            temp &= digitalRead(PIN_SWITCH_RIGHT_F) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_RIGHT_F) == LOW);
     #else
     #error "No valid switch configuration defined"
     #endif
@@ -95,16 +95,16 @@ bool switch_test_down(direction_t dir)
     #if defined(SWITCH_COUNT_SIX) ||\
     defined(SWITCH_COUNT_EIGHT)
         if(dir == DIRECTION_ID_LEFT)
-            temp &= digitalRead(PIN_SWITCH_LEFT_B) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_LEFT_B) == LOW);
         else if(dir == DIRECTION_ID_RIGHT)
-            temp &= digitalRead(PIN_SWITCH_RIGHT_B) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_RIGHT_B) == LOW);
     #endif
 
     #ifdef SWITCH_COUNT_EIGHT
         if(dir == DIRECTION_ID_FRONT)
-            temp &= digitalRead(PIN_SWITCH_FRONT_R) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_FRONT_R) == LOW);
         else if(dir == DIRECTION_ID_BACK)
-            temp &= digitalRead(PIN_SWITCH_BACK_R) == LOW;
+            temp &= (digitalRead(PIN_SWITCH_BACK_R) == LOW);
     #endif
 
     return temp;

@@ -8,6 +8,7 @@
 #include "switch.h"
 #include "echo.h"
 #include "control.h"
+#include "collect.h"
 #include "lcd.h"
 #include "shoot.h"
 

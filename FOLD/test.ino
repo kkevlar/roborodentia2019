@@ -13,7 +13,13 @@ void test_setup()
 		drive_init();
 
 	#elif defined(TEST_SWITCH)
+		lcd_init();
 		switch_init();
+
+	#elif defined(TEST_LOGIC_SWITCH)
+		lcd_init();
+		switch_init();
+
 	#elif defined(TEST_ECHO)
 		lcd_init();
 		echo_init();
@@ -43,18 +49,86 @@ void lcd_test()
 void switch_test()
 {
 	int i;
+	char buf[17];
 
-	for(i = 2; i <= 7; i++)
-	{
-		if(digitalRead(i) == LOW)
-		{
-			Serial.print("PRESS: ");
-			Serial.println(i);
-		}
+	i = 0;
 
-	}
+	i += sprintf(buf + i, "FL=");
+	#ifdef PIN_SWITCH_FRONT_L
+	i += sprintf(buf + i, digitalRead(PIN_SWITCH_FRONT_L) == LOW ? "L" : " ");
+	#else
+	i += sprintf(buf + i, "?");
+	#endif
 
-	delay(100);
+	i += sprintf(buf + i, " ");
+
+	i += sprintf(buf + i, "LF=");
+	#ifdef PIN_SWITCH_LEFT_F
+	i += sprintf(buf + i, digitalRead(PIN_SWITCH_LEFT_F) == LOW ? "L" : " ");
+	#else
+	i += sprintf(buf + i, "?");
+	#endif
+
+	i += sprintf(buf + i, " ");
+
+	i += sprintf(buf + i, "LB=");
+	#ifdef PIN_SWITCH_LEFT_B
+	i += sprintf(buf + i, digitalRead(PIN_SWITCH_LEFT_B) == LOW ? "L" : " ");
+	#else
+	i += sprintf(buf + i, "?");
+	#endif
+
+	lcd_print_top(buf);
+
+	i = 0;
+
+	i += sprintf(buf + i, "BL=");
+	#ifdef PIN_SWITCH_BACK_L
+	i += sprintf(buf + i, digitalRead(PIN_SWITCH_BACK_L) == LOW ? "L" : " ");
+	#else
+	i += sprintf(buf + i, "?");
+	#endif
+
+	i += sprintf(buf + i, " ");
+
+	i += sprintf(buf + i, "RF=");
+	#ifdef PIN_SWITCH_RIGHT_F
+	i += sprintf(buf + i, digitalRead(PIN_SWITCH_RIGHT_F) == LOW ? "L" : " ");
+	#else
+	i += sprintf(buf + i, "?");
+	#endif
+
+	i += sprintf(buf + i, " ");
+
+	i += sprintf(buf + i, "RB=");
+	#ifdef PIN_SWITCH_RIGHT_B
+	i += sprintf(buf + i, digitalRead(PIN_SWITCH_RIGHT_B) == LOW ? "L" : " ");
+	#else
+	i += sprintf(buf + i, "?");
+	#endif
+
+	lcd_print_bot(buf);
+
+}
+
+
+void logic_switch_test()
+{
+	int i;
+	char buf[17];
+
+	i = 0;
+
+	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_FRONT) ? "FRONT " : "F---- ");
+	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_BACK) ? "BACK  " : "B---  ");
+	lcd_print_top(buf);
+	i = 0;
+	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_LEFT) ? "LEFT  " : "L---  ");
+	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_RIGHT) ? "RIGHT " : "R---- ");
+	lcd_print_bot(buf);
+
+	
+
 }
 
 
@@ -84,6 +158,8 @@ char* deg_to_str(int n)
 		return "Left";
 	if(n == DEGREES_RIGHT)
 		return "Right";
+
+	return "None";
 }
 
 void card_test()
@@ -173,7 +249,7 @@ void pcontrol_test_print_update(float curr, float target)
 	i_curr = curr;
 	i_target = target;
 
-	snprintf(buf, 32, "%-4d -> %-4d", i_curr, i_target);
+	snprintf(buf, 32, "%5d -> %5d", i_curr, i_target);
 
 	lcd_print_bot(buf);
 }
@@ -197,7 +273,7 @@ void pcontrol_test_helper(float mm_target)
 
 	control_clear_result(&result_target);
 
-	vec_wall.speed = 70;
+	vec_wall.speed = 30;
 
 	args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
 	args_target.pk = 1.5f;
@@ -205,7 +281,7 @@ void pcontrol_test_helper(float mm_target)
 	args_target.abs_speed_dead_zone = 0;
 	args_target.abs_speed_boost_zone = 0;
 	args_target.echo_data_buf_count = 1;
-	args_target.mm_accuracy = 10;
+	args_target.mm_accuracy = 20;
 	args_target.mm_target = mm_target;
 
 	while(1)
@@ -219,9 +295,9 @@ void pcontrol_test_helper(float mm_target)
 
 		vec_result.speed = (int16_t) (control_treat_speed(
 			(float) vec_result.speed,
-			COLLECT_DO_MAX_NET_SPEED,
-			10.0f,
-			60.0f
+			255,
+			5.0f,
+			80.0f
 			));
 
 		pcontrol_test_print_update(result_target.echo_avg, args_target.mm_target);
@@ -237,11 +313,12 @@ void pcontrol_test_helper(float mm_target)
 
 void pcontrol_test()
 {
-	lcd_print_top("Hug left wall / P control front");
-	pcontrol_test_helper(150);
+	lcd_print_top("Hug Lft / P Fr");
+	// roomba(DIRECTION_ID_LEFT);
+	pcontrol_test_helper(100);
 	pcontrol_test_helper(600);
 	pcontrol_test_helper(250);
-	pcontrol_test_helper(800);
+	pcontrol_test_helper(1000);
 }
 
 void test_loop()
@@ -254,6 +331,8 @@ void test_loop()
 		card_test();
 	#elif defined(TEST_SWITCH)
 		switch_test();
+	#elif defined(TEST_LOGIC_SWITCH)
+		logic_switch_test();	
 	#elif defined(TEST_ECHO)
 		echo_test();
 	#elif defined(TEST_LCD)

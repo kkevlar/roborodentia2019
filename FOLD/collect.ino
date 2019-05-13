@@ -81,7 +81,7 @@ void roomba(direction_t dir_wall)
 
     while(switch_test_up(dir_wall))
     {
-        delay(5);
+        delay(20);
     }
 }
 
