@@ -1,39 +1,34 @@
 #include "test.h"
 
+#ifdef TEST_NO_GAME
+
+
 void test_setup()
 {
+	lcd_init();
+
 	#if defined(TEST_DRIVE_STOP)
 		drive_init();
 	#elif defined(TEST_DRIVE_DIAG)
 		drive_init();
-		lcd_init();
 
 	#elif defined(TEST_DRIVE_CARD)
-		lcd_init();
 		drive_init();
 
 	#elif defined(TEST_SWITCH)
-		lcd_init();
 		switch_init();
 
 	#elif defined(TEST_LOGIC_SWITCH)
-		lcd_init();
 		switch_init();
 
 	#elif defined(TEST_ECHO)
-		lcd_init();
 		echo_init();
 	#elif defined(TEST_LCD)
-		lcd_init();
 	#elif defined(TEST_FLYWHEEL)
 		shoot_init();	
-		lcd_init();
 	#elif defined(TEST_PCONTROL)
 		echo_init();	
 		drive_init();
-		lcd_init();
-	#elif defined(GAME_A)
-		#error "Macro definition problem"
 	#endif
 
 	// switch_init();
@@ -119,12 +114,12 @@ void logic_switch_test()
 
 	i = 0;
 
-	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_FRONT) ? "FRONT " : "F---- ");
-	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_BACK) ? "BACK  " : "B---  ");
+	i += sprintf(buf + i, switch_test_up(DIRECTION_ID_FRONT) ? "FRONT " : "F---- ");
+	i += sprintf(buf + i, switch_test_up(DIRECTION_ID_BACK) ? "BACK  " : "B---  ");
 	lcd_print_top(buf);
 	i = 0;
-	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_LEFT) ? "LEFT  " : "L---  ");
-	i += sprintf(buf + i, switch_test_down(DIRECTION_ID_RIGHT) ? "RIGHT " : "R---- ");
+	i += sprintf(buf + i, switch_test_up(DIRECTION_ID_LEFT) ? "LEFT  " : "L---  ");
+	i += sprintf(buf + i, switch_test_up(DIRECTION_ID_RIGHT) ? "RIGHT " : "R---- ");
 	lcd_print_bot(buf);
 
 	
@@ -166,6 +161,7 @@ void card_test()
 {
 	drive_vector_t vec;
 	vec.speed = 255;
+	char buf[32];
 
 	// Serial.println("immacard");
 	lcd_print_top("Testing Cardinal");
@@ -174,7 +170,8 @@ void card_test()
 	{
 		vec.degrees = 90*i;
 		go(vec);
-		lcd_print_bot(vec.degrees);
+		sprintf(buf, "%d", vec.degrees);
+		lcd_print_bot(buf);
 		delay(500);
 		go_stop();
 		lcd_print_bot("Stop!");
@@ -348,6 +345,7 @@ void pcontrol_test()
 void test_loop()
 {
 	#if defined(TEST_DRIVE_STOP)
+		lcd_print_top("Im stopped!");
 		go_stop();
 	#elif defined(TEST_DRIVE_DIAG)
 		diag_test();
@@ -365,9 +363,7 @@ void test_loop()
 		flywheel_test();
 	#elif defined(TEST_PCONTROL)
 		pcontrol_test();
-	#elif defined(GAME_A)
-		#error "Macro definition problem"
 	#endif
 }
 
-
+#endif

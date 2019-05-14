@@ -7,6 +7,11 @@ void collect_init(void)
 	return;
 }
 
+void collect_im_bored(void)
+{
+    /* shoot_indexer_spam(); */ 
+}
+
 void position_for_collection(direction_t dir_wall, direction_t dir_target, float mm_target)
 {
     struct p_control_result result_wall;
@@ -46,7 +51,6 @@ void position_for_collection(direction_t dir_wall, direction_t dir_target, float
         args_target.mm_target = mm_target;
         args_target.mm_accuracy = COLLECT_PRE_MM_ACCURACY;
 
-        delay(COLLECT_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
         p_control_non_block(&result_wall,&args_wall);
         vec_wall.speed = (result_wall.result_speed);
         delay(COLLECT_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
@@ -67,6 +71,9 @@ void position_for_collection(direction_t dir_wall, direction_t dir_target, float
         if(result_target.end_condition_count > 2 && 
             (result_wall.end_condition_count > 2 || result_wall.echo_avg < COLLECT_PRE_EARLY_BREAK_WALL_DIST))
             break;
+
+        collect_im_bored();
+        delay(COLLECT_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
     }
 }
 
@@ -81,6 +88,7 @@ void roomba(direction_t dir_wall)
 
     while(switch_test_up(dir_wall))
     {
+        collect_im_bored();
         delay(20);
     }
 }
@@ -112,7 +120,6 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
 
     while(1)
     {
-        delay(15);
         p_control_non_block(&result_target,&args_target);
 
         vec_target.speed = result_target.result_speed;
@@ -130,6 +137,9 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
 
         if(result_target.end_condition_count > 2)
             break;
+
+        collect_im_bored();
+        delay(COLLECT_DO_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
     }
 }
 
@@ -156,7 +166,6 @@ void yeet_away_from_wall(direction_t dir_wall, float mm_target)
 
     while(1)
     {
-        delay(COLLECT_YEET_AWAY_DELAY_MS);
         p_control_non_block(&result_wall,&args_wall);
 
         vec_wall.speed = result_wall.result_speed;
@@ -165,6 +174,9 @@ void yeet_away_from_wall(direction_t dir_wall, float mm_target)
 
         if(result_wall.end_condition_count > 2)
             break;
+
+        collect_im_bored();
+        delay(COLLECT_YEET_AWAY_DELAY_MS);
     }
 }
 

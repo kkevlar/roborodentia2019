@@ -6,6 +6,7 @@
 #include "wiring.h"
 #include "control.h"
 #include "drive.h"
+#include "shoot.h"
 #include "switch.h"
 
 void collect_init(void);

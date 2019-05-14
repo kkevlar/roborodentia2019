@@ -12,8 +12,10 @@
 #include "lcd.h"
 #include "shoot.h"
 
+#ifdef TEST_NO_GAME
 void test_setup();
 void test_loop();
+#endif
 
 #endif
 

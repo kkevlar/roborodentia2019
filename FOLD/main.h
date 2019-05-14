@@ -13,8 +13,10 @@
 #include "aim.h"
 #include "collect.h"
 
+#ifndef TEST_NO_GAME
 void main_setup();
 void main_loop();
+#endif
 
 #endif
 
