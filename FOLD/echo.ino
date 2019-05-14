@@ -39,7 +39,12 @@ float echo_test_mm(uint8_t pin)
     digitalWrite(PIN_ULTRASONIC_TRIG, LOW);
  
     pinMode(pin, INPUT);
+
+    #ifdef ECHO_PULSEIN_LIMIT
+    duration = pulseIn(pin, HIGH, ECHO_PULSEIN_LIMIT);
+    #else
     duration = pulseIn(pin, HIGH);
+    #endif
 
     myout = (duration);
     myout *= (0.171821f);

@@ -203,24 +203,48 @@ void echo_test()
 
 		i++;
 
-	f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
 	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
-	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
-	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
+	f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
+	f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
 
-	i_front = ((int16_t )f_front);
+	// i_front = ((int16_t )f_front);
 	// i_back = f_back;
-	// i_left = f_left;
-	// i_right = f_right;
+	i_left = f_left;
+	i_right = f_right;
 
-	sprintf(buf,"FRONT: #%d", i);
+	sprintf(buf,"LEFT:  %5d", i_left);
 	lcd_print_top(buf);
-	sprintf(buf, "%-6i", i_front);
+	sprintf(buf,"RIGHT: %5d", i_right);
 	lcd_print_bot(buf);
 
 	
 	delay(100);
 	}
+
+	/*while(true)
+	{
+
+		i++;
+
+	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
+	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
+	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
+
+	// i_front = ((int16_t )f_front);
+	i_back = f_back;
+	// i_left = f_left;
+	// i_right = f_right;
+
+	sprintf(buf,"BACK: %5d", i_back);
+	lcd_print_top(buf);
+	sprintf(buf,"LEFT: %5d", i_left);
+	lcd_print_bot(buf);
+
+	
+	delay(100);
+	}*/
 }
 
 void flywheel_test()

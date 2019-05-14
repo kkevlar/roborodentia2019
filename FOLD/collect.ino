@@ -59,7 +59,7 @@ void position_for_collection(direction_t dir_wall, direction_t dir_target, float
             (float) vec_result.speed,
             255.0f,
             10.0f,
-            60.0f
+            COLLECT_GENERAL_BOOST_ZONE
             ));
 
         go(vec_result);
@@ -123,7 +123,7 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
             (float) vec_result.speed,
             COLLECT_DO_MAX_NET_SPEED,
             10.0f,
-            60.0f
+            COLLECT_GENERAL_BOOST_ZONE
             ));
 
         go(vec_result);
@@ -149,7 +149,7 @@ void yeet_away_from_wall(direction_t dir_wall, float mm_target)
     args_wall.pk = COLLECT_YEET_AWAY_P_CONSTANT;
     args_wall.max_speed = COLLECT_YEET_AWAY_MAX_SPEED;
     args_wall.abs_speed_dead_zone = COLLECT_YEET_AWAY_DEAD_ZONE;
-    args_wall.abs_speed_boost_zone = COLLECT_YEET_AWAY_BOOST_ZONE;
+    args_wall.abs_speed_boost_zone = COLLECT_GENERAL_BOOST_ZONE;
     args_wall.echo_data_buf_count = 1;
     args_wall.mm_accuracy = COLLECT_YEET_AWAY_ACCURACY;
     args_wall.mm_target = mm_target;

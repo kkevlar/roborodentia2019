@@ -137,7 +137,7 @@ void aim_position_pre_roomba(direction_t dir_target, float mm_target)
             (float) vec_result.speed,
             255.0f,
             10.0f,
-            60.0f
+            AIM_GENERAL_BOOST_ZONE
             ));
 
         go(vec_result);
