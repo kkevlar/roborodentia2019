@@ -59,6 +59,13 @@ void shoot_init(void)
 
 void shoot_set_speed(Adafruit_DCMotor* motor, int16_t speed)
 {
+    if(motor == conveyor_left)
+        speed *= MOTOR_MULTIPLIER_CONVEYOR_L;
+    if(motor == conveyor_right)
+        speed *= MOTOR_MULTIPLIER_CONVEYOR_R;
+    if(motor == indexer)
+        speed *= MOTOR_MULTIPLIER_INDEXER;
+
     if (speed < 0)
     {
         speed = -speed;

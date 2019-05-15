@@ -7,6 +7,9 @@ void test_setup()
 {
 	lcd_init();
 
+	lcd_print_top("Initing test...");
+
+
 	#if defined(TEST_DRIVE_STOP)
 		drive_init();
 	#elif defined(TEST_DRIVE_DIAG)
@@ -23,7 +26,11 @@ void test_setup()
 
 	#elif defined(TEST_ECHO)
 		echo_init();
+
+	#elif defined(TEST_CONVEYOR_INDEXER)
+		shoot_init();
 	#elif defined(TEST_LCD)
+
 	#elif defined(TEST_FLYWHEEL)
 		shoot_init();	
 	#elif defined(TEST_PCONTROL)
@@ -172,10 +179,10 @@ void card_test()
 		go(vec);
 		sprintf(buf, "%d", vec.degrees);
 		lcd_print_bot(buf);
-		delay(500);
+		delay(200);
 		go_stop();
 		lcd_print_bot("Stop!");
-		delay(500);
+		delay(200);
 	}
 	delay(1000);
 }
@@ -201,8 +208,10 @@ void echo_test()
 		i++;
 
 	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	
 	// f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
 	f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
+	delay(20);
 	f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
 
 	// i_front = ((int16_t )f_front);
@@ -224,19 +233,20 @@ void echo_test()
 
 		i++;
 
-	// f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	f_front = echo_test_mm(PIN_ULTRASONIC_ECHO_FRONT);
+	delay(20);
 	f_back = echo_test_mm(PIN_ULTRASONIC_ECHO_BACK);
 	// f_left = echo_test_mm(PIN_ULTRASONIC_ECHO_LEFT);
 	// f_right = echo_test_mm(PIN_ULTRASONIC_ECHO_RIGHT);
 
-	// i_front = ((int16_t )f_front);
+	i_front = ((int16_t )f_front);
 	i_back = f_back;
 	// i_left = f_left;
 	// i_right = f_right;
 
-	sprintf(buf,"BACK: %5d", i_back);
+	sprintf(buf,"FRONT: %5d", i_front);
 	lcd_print_top(buf);
-	sprintf(buf,"LEFT: %5d", i_left);
+	sprintf(buf,"BACK:  %5d", i_back);
 	lcd_print_bot(buf);
 
 	
@@ -246,18 +256,28 @@ void echo_test()
 
 void flywheel_test()
 {
-
 	shoot_flywheel_left_stop();
-	lcd_print_top("Im gonna shoot          ");
+	shoot_flywheel_right_stop();
+	lcd_print_top("zzzz  :)  zzzzzzzzz");
 	delay(2000); 
 	shoot_flywheel_left_start();
+	shoot_flywheel_right_start();
 	lcd_print_top("WHeeeeee                ");
 	delay(2000);
-	shoot_flywheel_left_stop();
-	lcd_print_top("resting                 ");
-	delay(4000);
 
+}
 
+void conveyors_indexer_test()
+{
+	lcd_print_bot(":))");
+	shoot_conveyor_both_stop();
+	shoot_indexer_stop();
+	lcd_print_top("cs and i stopped");
+	delay(2000);
+	shoot_conveyor_both_start();
+	shoot_indexer_start();
+	lcd_print_top("SPPINNNNNNNN");
+	delay(2000);
 }
 
 void pcontrol_test_print_update(float curr, float target)
@@ -279,7 +299,7 @@ void pcontrol_test_helper(float mm_target)
 {
 
 	direction_t dir_target = DIRECTION_ID_FRONT;
-	direction_t dir_wall = DIRECTION_ID_LEFT;
+	direction_t dir_wall = DIRECTION_ID_RIGHT;
 
 	struct p_control_result result_target;
 	struct p_control_args args_target;
@@ -318,7 +338,7 @@ void pcontrol_test_helper(float mm_target)
 			(float) vec_result.speed,
 			255,
 			5.0f,
-			80.0f
+			120.0f
 			));
 
 		pcontrol_test_print_update(result_target.echo_avg, args_target.mm_target);
@@ -334,12 +354,14 @@ void pcontrol_test_helper(float mm_target)
 
 void pcontrol_test()
 {
-	lcd_print_top("Hug Lft / P Fr");
+	lcd_print_top("Hug Right / P Fr");
 	// roomba(DIRECTION_ID_LEFT);
 	pcontrol_test_helper(100);
-	pcontrol_test_helper(600);
-	pcontrol_test_helper(250);
-	pcontrol_test_helper(1000);
+	pcontrol_test_helper(200);
+	pcontrol_test_helper(300);
+	pcontrol_test_helper(400);
+	pcontrol_test_helper(500);
+
 }
 
 void test_loop()
@@ -357,6 +379,8 @@ void test_loop()
 		logic_switch_test();	
 	#elif defined(TEST_ECHO)
 		echo_test();
+	#elif defined(TEST_CONVEYOR_INDEXER)
+		conveyors_indexer_test();
 	#elif defined(TEST_LCD)
 		lcd_test();
 	#elif defined(TEST_FLYWHEEL)

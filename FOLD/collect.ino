@@ -91,6 +91,8 @@ void roomba(direction_t dir_wall)
         collect_im_bored();
         delay(20);
     }
+
+    delay(COLLECT_ROOMBA_PERSIST_MS);
 }
 
 void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target)
@@ -115,7 +117,7 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
     args_target.abs_speed_dead_zone = 0;
     args_target.abs_speed_boost_zone = 0;
     args_target.echo_data_buf_count = 1;
-    args_target.mm_accuracy = 10;
+    args_target.mm_accuracy = COLLECT_DO_MM_ACCURACY;
     args_target.mm_target = mm_target;
 
     while(1)
@@ -130,7 +132,7 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
             (float) vec_result.speed,
             COLLECT_DO_MAX_NET_SPEED,
             10.0f,
-            COLLECT_GENERAL_BOOST_ZONE
+            230
             ));
 
         go(vec_result);
@@ -142,6 +144,72 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
         delay(COLLECT_DO_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
     }
 }
+
+void position_after_yeet(direction_t dir_wall, direction_t dir_target, float mm_wall, float mm_target)
+{
+    struct p_control_result result_wall;
+    struct p_control_result result_target;
+
+    struct p_control_args args_wall;
+    struct p_control_args args_target;
+
+    drive_vector_t vec_wall;
+    drive_vector_t vec_target;
+    drive_vector_t vec_result;
+
+    vec_wall.degrees = direction_to_degrees(dir_wall);
+    vec_target.degrees = direction_to_degrees(dir_target);
+
+    control_clear_result(&result_wall);
+    control_clear_result(&result_target);
+
+    args_wall.pin_ultrasonic = direction_to_echo_pin(dir_wall);
+    args_wall.pk = COLLECT_PRE_WALL_P_CONSTANT;
+    args_wall.max_speed = 255;
+    args_wall.abs_speed_dead_zone = 0;
+    args_wall.abs_speed_boost_zone = 0;
+    args_wall.echo_data_buf_count = 4;
+
+    args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
+    args_target.pk = COLLECT_PRE_TARGET_P_CONSTANT;
+    args_target.max_speed = 255;
+    args_target.abs_speed_dead_zone = 0;
+    args_target.abs_speed_boost_zone = 0;
+    args_target.echo_data_buf_count = 4;
+
+    while(1)
+    {
+        args_wall.mm_target = mm_wall;
+        args_wall.mm_accuracy = 150;
+        args_target.mm_target = mm_target;
+        args_target.mm_accuracy = 150;
+
+        p_control_non_block(&result_wall,&args_wall);
+        vec_wall.speed = (result_wall.result_speed);
+        delay(COLLECT_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
+        p_control_non_block(&result_target,&args_target);
+        vec_target.speed = (result_target.result_speed);
+        vec_wall.speed = (result_wall.result_speed);
+        vec_result = drive_combine_vecs(vec_wall, vec_target, 255);
+
+        vec_result.speed = (int16_t) (control_treat_speed(
+            (float) vec_result.speed,
+            255.0f,
+            10.0f,
+            COLLECT_GENERAL_BOOST_ZONE
+            ));
+
+        go(vec_result);
+
+        if(result_target.end_condition_count > 1 && 
+            (result_wall.end_condition_count > 1))
+            break;
+
+        collect_im_bored();
+        delay(COLLECT_PRE_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
+    }
+}
+
 
 
 void yeet_away_from_wall(direction_t dir_wall, float mm_target)
@@ -202,8 +270,8 @@ void collect_back()
     roomba(DIRECTION_ID_BACK);
     do_collection(
         DIRECTION_ID_BACK,
-        DIRECTION_ID_RIGHT,
-        FIELD_COLLECT_BACK_POST_TARGET_FROM_RIGHT);
+        DIRECTION_ID_LEFT,
+        FIELD_COLLECT_BACK_POST_TARGET_FROM_LEFT);
 }
 
 void collect_left()
@@ -226,6 +294,9 @@ void collection_victory_lap()
     yeet_away_from_wall(
         DIRECTION_ID_BACK,
         FIELD_COLLECT_YEET_ANTI_ROOMBA_WALL_BACK);
+    position_after_yeet(DIRECTION_ID_LEFT,
+        DIRECTION_ID_BACK,
+        300, 300);
     collect_left();
 }
 

@@ -52,8 +52,8 @@ void set_speed(uint8_t wheel, int16_t speed, int time)
     {
         motor->run(FORWARD);
     }
-    if(speed > 255)
-        speed = 255;
+    if(speed > WHEEL_GLOBAL_SPEED_CAP)
+        speed = WHEEL_GLOBAL_SPEED_CAP;
     
     if(time == 0 || speed == 0) //no ramp down
     {

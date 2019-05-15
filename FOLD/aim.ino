@@ -85,7 +85,7 @@ aim_location_t aim_select_location()
 }
 
 
-void aim_position_pre_roomba(direction_t dir_target, float mm_target)
+void aim_position_pre_roomba(direction_t dir_target, float mm_wall, float mm_target)
 {
     struct p_control_result result_wall;
     struct p_control_result result_target;
@@ -97,18 +97,18 @@ void aim_position_pre_roomba(direction_t dir_target, float mm_target)
     drive_vector_t vec_target;
     drive_vector_t vec_result;
 
-    vec_wall.degrees = direction_to_degrees(DIRECTION_ID_FRONT);
+    vec_wall.degrees = direction_to_degrees(DIRECTION_ID_BACK);
     vec_target.degrees = direction_to_degrees(dir_target);
 
     control_clear_result(&result_wall);
     control_clear_result(&result_target);
 
-    args_wall.pin_ultrasonic = direction_to_echo_pin(DIRECTION_ID_FRONT);
+    args_wall.pin_ultrasonic = direction_to_echo_pin(DIRECTION_ID_BACK);
     args_wall.pk = AIM_PRE_WALL_P_CONSTANT;
     args_wall.max_speed = 255;
     args_wall.abs_speed_dead_zone = 0;
     args_wall.abs_speed_boost_zone = 0;
-    args_wall.echo_data_buf_count = 1;
+    args_wall.echo_data_buf_count = 4;
 
     args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
     args_target.pk = AIM_PRE_TARGET_P_CONSTANT;
@@ -119,7 +119,7 @@ void aim_position_pre_roomba(direction_t dir_target, float mm_target)
 
     while(1)
     {
-        args_wall.mm_target = AIM_PRE_DESIRED_WALL_DIST_MM;
+        args_wall.mm_target = mm_wall;
         args_wall.mm_accuracy = AIM_PRE_MM_ACCURACY;
         args_target.mm_target = mm_target;
         args_target.mm_accuracy = AIM_PRE_MM_ACCURACY;
@@ -143,58 +143,42 @@ void aim_position_pre_roomba(direction_t dir_target, float mm_target)
         go(vec_result);
 
         if(result_target.end_condition_count > 2 && 
-            (result_wall.end_condition_count > 2 || result_wall.echo_avg < AIM_PRE_EARLY_BREAK_WALL_DIST))
+            (result_wall.end_condition_count > 2))
             break;
     }
 }
 
-void aim_pre_far_left(void)
+void aim_pre_left(void)
 {
-	aim_position_pre_roomba(
-		DIRECTION_ID_RIGHT,
-		FIELD_AIM_PRE_FAR_LEFT_FROM_RIGHT);
-}
 
-void aim_pre_center_left(void)
-{
 	aim_position_pre_roomba(
-		DIRECTION_ID_RIGHT,
-		FIELD_AIM_PRE_CENTER_LEFT_FROM_RIGHT);
+		DIRECTION_ID_LEFT,
+		AIM_PRE_DESIRED_WALL_DIST_MM_L_AND_C,
+		FIELD_AIM_PRE_LEFT_FROM_LEFT);
 }
 
 void aim_pre_center(void)
 {
-	aim_position_pre_roomba(
-		DIRECTION_ID_RIGHT,
-		FIELD_AIM_PRE_CENTER_FROM_RIGHT);
+	aim_pre_left();
 }
 
-void aim_pre_center_right(void)
+
+void aim_pre_right(void)
 {
 	aim_position_pre_roomba(
 		DIRECTION_ID_RIGHT,
-		FIELD_AIM_PRE_CENTER_RIGHT_FROM_RIGHT);
-}
-
-void aim_pre_far_right(void)
-{
-	aim_position_pre_roomba(
-		DIRECTION_ID_RIGHT,
-		FIELD_AIM_PRE_FAR_RIGHT_FROM_RIGHT);
+		AIM_PRE_DESIRED_WALL_DIST_MM_R,
+		FIELD_AIM_PRE_RIGHT_FROM_RIGHT);
 }
 
 void aim_pre(aim_location_t loc)
 {
-	if(AIM_LOCATION_ID_FAR_LEFT == loc)
-		aim_pre_far_left();
-	else if(AIM_LOCATION_ID_CENTER_LEFT == loc)
-		aim_pre_center_left();
+	if(AIM_LOCATION_ID_LEFT == loc)
+		aim_pre_left();
 	else if(AIM_LOCATION_ID_CENTER == loc)
 		aim_pre_center();
-	else if(AIM_LOCATION_ID_CENTER_RIGHT == loc)
-		aim_pre_center_right();
-	else if(AIM_LOCATION_ID_FAR_RIGHT == loc)
-		aim_pre_far_right();
+	else if(AIM_LOCATION_ID_RIGHT == loc)
+		aim_pre_right();
 }
 
 
@@ -250,18 +234,11 @@ void aim_position_final_helper(direction_t dir_target, float mm_target)
 	
 }
 
-void aim_final_far_left(void)
+void aim_final_left(void)
 {
 	aim_position_final_helper(
 		DIRECTION_ID_RIGHT,
-		FIELD_AIM_FINAL_FAR_LEFT_FROM_RIGHT);
-}
-
-void aim_final_center_left(void)
-{
-	aim_position_final_helper(
-		DIRECTION_ID_RIGHT,
-		FIELD_AIM_FINAL_CENTER_LEFT_FROM_RIGHT);
+		FIELD_AIM_FINAL_LEFT_FROM_RIGHT);
 }
 
 void aim_final_center(void)
@@ -271,32 +248,22 @@ void aim_final_center(void)
 		FIELD_AIM_FINAL_CENTER_FROM_RIGHT);
 }
 
-void aim_final_center_right(void)
-{
-	aim_position_final_helper(
-		DIRECTION_ID_LEFT,
-		FIELD_AIM_FINAL_CENTER_RIGHT_FROM_LEFT);
-}
 
-void aim_final_far_right(void)
+void aim_final_right(void)
 {
 	aim_position_final_helper(
-		DIRECTION_ID_LEFT,
-		FIELD_AIM_FINAL_FAR_RIGHT_FROM_LEFT);
+		DIRECTION_ID_RIGHT,
+		FIELD_AIM_FINAL_RIGHT_FROM_RIGHT);
 }
 
 void aim_final(aim_location_t loc)
 {
-	if(AIM_LOCATION_ID_FAR_LEFT == loc)
-		aim_final_far_left();
-	else if(AIM_LOCATION_ID_CENTER_LEFT == loc)
-		aim_final_center_left();
+	if(AIM_LOCATION_ID_LEFT == loc)
+		aim_final_left();
 	else if(AIM_LOCATION_ID_CENTER == loc)
 		aim_final_center();
-	else if(AIM_LOCATION_ID_CENTER_RIGHT == loc)
-		aim_final_center_right();
-	else if(AIM_LOCATION_ID_FAR_RIGHT == loc)
-		aim_final_far_right();
+	else if(AIM_LOCATION_ID_RIGHT == loc)
+		aim_final_right();
 }
 
 void aim(aim_location_t loc)
