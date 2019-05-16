@@ -10,11 +10,11 @@
 // #define TEST_ECHO
 // #define TEST_LCD
 // #define TEST_CONVEYORS_INDEXER
-// #define TEST_FLYWHEEL
+#define TEST_FLYWHEEL
 // #define TEST_PCONTROL
 
 
-#define GAME_A
+// #define GAME_A
 
 
 #if defined(TEST_DRIVE_STOP) || \

@@ -35,20 +35,24 @@ void main_game_a_loop(void)
 {
     // lcd_print_top("Game A             ");
 
+    // collection_victory_lap();
+    // collection_victory_lap();
     collection_victory_lap();
 
     simple_aim_n_shoot(AIM_LOCATION_ID_LEFT);
     // // lcd_print_bot("Collect 1 Done");
 
+    // collection_victory_lap();
+    // collection_victory_lap();
     collection_victory_lap();
 
     simple_aim_n_shoot(AIM_LOCATION_ID_CENTER);
 
+    // collection_victory_lap();
+    // collection_victory_lap();
     collection_victory_lap();
 
     simple_aim_n_shoot(AIM_LOCATION_ID_RIGHT);
-
-    collection_victory_lap();
 
 
 

@@ -108,7 +108,7 @@ void aim_position_pre_roomba(direction_t dir_target, float mm_wall, float mm_tar
     args_wall.max_speed = 255;
     args_wall.abs_speed_dead_zone = 0;
     args_wall.abs_speed_boost_zone = 0;
-    args_wall.echo_data_buf_count = 4;
+    args_wall.echo_data_buf_count = 3;
 
     args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
     args_target.pk = AIM_PRE_TARGET_P_CONSTANT;
@@ -165,6 +165,8 @@ void aim_pre_center(void)
 
 void aim_pre_right(void)
 {
+	while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_RIGHT)) > 450)
+        go_right();
 	aim_position_pre_roomba(
 		DIRECTION_ID_RIGHT,
 		AIM_PRE_DESIRED_WALL_DIST_MM_R,

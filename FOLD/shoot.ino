@@ -8,53 +8,61 @@ Adafruit_DCMotor *indexer;
 Adafruit_DCMotor *conveyor_left;
 Adafruit_DCMotor *conveyor_right;
 
+#define SPEED_MIN (1000)                                  // Set the Minimum Speed in microseconds
+#define SPEED_MAX (2000)                                  // Set the Minimum Speed in microseconds
+
 
 void shoot_init(void)
 {
     AFMS_SHOOT.begin();
-
-    flywheel_left.attach(PIN_PWM_LEFT);
-    flywheel_right.attach(PIN_PWM_RIGHT);
 
     indexer = AFMS_SHOOT.getMotor(MOTOR_SHEILD_PORT_INDEXER);
     conveyor_left = AFMS_SHOOT.getMotor(MOTOR_SHEILD_PORT_CONVEYOR_L);
     conveyor_right = AFMS_SHOOT.getMotor(MOTOR_SHEILD_PORT_CONVEYOR_R);
 
     flywheel_left.write(SHOOT_STOPPED_FLYWHEEL_LEFT);
-    flywheel_right.write(SHOOT_STOPPED_FLYWHEEL_RIGHT);
+    // flywheel_right.write(SHOOT_STOPPED_FLYWHEEL_RIGHT);
     indexer->run(RELEASE);
     conveyor_left->run(RELEASE);
     conveyor_right->run(RELEASE);
 
-
-    flywheel_left.write(180);
-    flywheel_right.write(180);
-
-    delay(2000);
-
-    flywheel_left.write(0);
-    flywheel_right.write(0);
-
-    delay(2000);
-
-    flywheel_left.write(0);
-    flywheel_right.write(90);
-
-
-    // delay(100);
-
-    //  flywheel_left.write(90);
-    // flywheel_right.write(90);
-
-    // delay(100);
-
-    //  flywheel_left.write(160);
-    // flywheel_right.write(160);
-
     // delay(2000);
 
-    //  flywheel_left.write(90);
-    // flywheel_right.write(90);
+
+    /*lcd_print_bot("arming");
+    myESC.arm(); 
+
+    delay();
+
+    myESC.speed(1500);*/
+    
+    delay(1000);
+
+    flywheel_left.attach(PIN_PWM_LEFT,1000,2000);
+    // flywheel_right.attach(PIN_PWM_RIGHT);
+
+
+    flywheel_left.write(500);
+    // flywheel_right.write(180);
+
+    delay(1000);
+
+    lcd_print_bot("0...");
+
+
+    flywheel_left.write(1000);
+    // flywheel_right.write(0);
+
+    delay(1000);
+
+
+    lcd_print_bot("90...");
+
+    flywheel_left.write(2000);
+
+    delay(500);
+    // flywheel_right.write(90);*/
+
 }
 
 void shoot_set_speed(Adafruit_DCMotor* motor, int16_t speed)
@@ -91,7 +99,7 @@ void shoot_flywheel_left_start(void)
 
 void shoot_flywheel_right_start(void)
 {
-    flywheel_right.write(SHOOT_SPEED_FLYWHEEL_RIGHT);
+    // flywheel_right.write(SHOOT_SPEED_FLYWHEEL_RIGHT);
 }
 
 void shoot_flywheel_left_stop(void)
@@ -101,7 +109,7 @@ void shoot_flywheel_left_stop(void)
 
 void shoot_flywheel_right_stop(void)
 {
-    flywheel_right.write(SHOOT_STOPPED_FLYWHEEL_RIGHT);
+    // flywheel_right.write(SHOOT_STOPPED_FLYWHEEL_RIGHT);
 }
 
 void shoot_flywheel_both_start(void)

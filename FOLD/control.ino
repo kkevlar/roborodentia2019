@@ -89,12 +89,13 @@ float control_treat_speed(
     float dead_zone,
     float boost_zone)
 {
-    if(fabs(speed) > fabs(max))
-        speed = fabs(max) * signum(speed);
+   
     if (fabs(speed) < fabs(dead_zone))
         speed = 0;
     else if (fabs(speed) < fabs(boost_zone))
         speed = fabs(boost_zone) * signum(speed);
+    if(fabs(speed) > fabs(max))
+        speed = fabs(max) * signum(speed);
 
     return speed;
 }

@@ -256,14 +256,17 @@ void echo_test()
 
 void flywheel_test()
 {
+	// go_stop();
 	shoot_flywheel_left_stop();
-	shoot_flywheel_right_stop();
+	shoot_conveyor_left_stop();
+	shoot_indexer_stop();
 	lcd_print_top("zzzz  :)  zzzzzzzzz");
 	delay(2000); 
 	shoot_flywheel_left_start();
-	shoot_flywheel_right_start();
-	lcd_print_top("WHeeeeee                ");
-	delay(2000);
+	shoot_conveyor_left_start();
+	shoot_indexer_start();
+	lcd_print_top("WHeeeeee           ");
+	delay(5000);
 
 }
 

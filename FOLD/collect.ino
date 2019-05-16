@@ -62,7 +62,7 @@ void position_for_collection(direction_t dir_wall, direction_t dir_target, float
         vec_result.speed = (int16_t) (control_treat_speed(
             (float) vec_result.speed,
             255.0f,
-            10.0f,
+            20.0f,
             COLLECT_GENERAL_BOOST_ZONE
             ));
 
@@ -93,6 +93,43 @@ void roomba(direction_t dir_wall)
     }
 
     delay(COLLECT_ROOMBA_PERSIST_MS);
+}
+
+
+void backglide()
+{
+    drive_vector_t vec;
+    vec.speed = 255;
+    vec.degrees = 190;
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    {
+        delay(20);
+        go(vec);
+    }
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    {
+        delay(20);
+
+        go(vec);
+    }
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    {
+        delay(20);
+
+        go(vec);
+    }
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    {
+        delay(20);
+
+        go(vec);
+    }
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    {
+        delay(20);
+
+        go(vec);
+    }
 }
 
 void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target)
@@ -131,7 +168,7 @@ void do_collection(direction_t dir_wall, direction_t dir_target, float mm_target
         vec_result.speed = (int16_t) (control_treat_speed(
             (float) vec_result.speed,
             COLLECT_DO_MAX_NET_SPEED,
-            10.0f,
+            20.0f,
             230
             ));
 
@@ -195,7 +232,7 @@ void position_after_yeet(direction_t dir_wall, direction_t dir_target, float mm_
         vec_result.speed = (int16_t) (control_treat_speed(
             (float) vec_result.speed,
             255.0f,
-            10.0f,
+            20.0f,
             COLLECT_GENERAL_BOOST_ZONE
             ));
 
@@ -263,11 +300,12 @@ void collect_right()
 
 void collect_back()
 {
-    position_for_collection(
-        DIRECTION_ID_BACK,
-        DIRECTION_ID_RIGHT,
-        FIELD_COLLECT_BACK_PRE_TARGET_FROM_RIGHT);
-    roomba(DIRECTION_ID_BACK);
+    // position_for_collection(
+    //     DIRECTION_ID_BACK,
+    //     DIRECTION_ID_RIGHT,
+    //     FIELD_COLLECT_BACK_PRE_TARGET_FROM_RIGHT);
+    // roomba(DIRECTION_ID_BACK);
+    backglide();
     do_collection(
         DIRECTION_ID_BACK,
         DIRECTION_ID_LEFT,
@@ -289,6 +327,11 @@ void collect_left()
 
 void collection_victory_lap()
 {
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_RIGHT)) > 700)
+    {
+        delay(20);
+        go_right();
+    }
     collect_right();
     collect_back();
     yeet_away_from_wall(
