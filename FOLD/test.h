@@ -11,6 +11,7 @@
 #include "collect.h"
 #include "lcd.h"
 #include "shoot.h"
+#include "wheel.h"
 
 #ifdef TEST_NO_GAME
 void test_setup();

@@ -8,6 +8,7 @@ void main_setup()
 
     lcd_print_top("Init.....");
 
+    wheel_init();
     switch_init();
     drive_init();
     echo_init();
@@ -21,49 +22,73 @@ void main_setup()
 void simple_aim_n_shoot(aim_location_t loc)
 {
     char buf[17];
+    long time_start;
 
     // aim_location_t loc = aim_select_location();
     snprintf(buf, 16, "Gonna shoot @%d", loc);
     lcd_print_top(buf);
     aim(loc);
     go_stop();
+    shoot_flywheel_both_start();
+    shoot_conveyor_both_start();
+    shoot_indexer_start();
+
+    while(millis() - time_start < 10000)
+    {
+        shoot_indexer_spam_forward();
+        delay(10);
+    }
     lcd_print_bot("Pew! Pew! Pew!");
-    delay(2000);
+
+    shoot_indexer_stop();
+    shoot_flywheel_both_stop();
+    shoot_conveyor_both_stop();
 }
 
 void main_game_a_loop(void)
 {
-    // lcd_print_top("Game A             ");
+    // go_stop();
+    // shoot_flywheel_both_stop();
+    // shoot_conveyor_both_stop();
+    // shoot_indexer_stop();
+    // while(switch_test_up(DIRECTION_ID_FRONT))
+    // {
+    //     delay(10);
+    // }
 
-    // collection_victory_lap();
-    // collection_victory_lap();
-    collection_victory_lap();
+    // shoot_indexer_start();
 
-    simple_aim_n_shoot(AIM_LOCATION_ID_LEFT);
-    // // lcd_print_bot("Collect 1 Done");
+    // delay(2000);
 
-    // collection_victory_lap();
-    // collection_victory_lap();
-    collection_victory_lap();
+    // shoot_indexer_stop();
 
-    simple_aim_n_shoot(AIM_LOCATION_ID_CENTER);
-
-    // collection_victory_lap();
-    // collection_victory_lap();
-    collection_victory_lap();
-
-    simple_aim_n_shoot(AIM_LOCATION_ID_RIGHT);
-
-
-
-    // lcd_print_bot("Collect 2 Done");
-
+    // go_stop();
+    // go_right();
+    // delay(500);
+    // go_stop();
+    // delay(5000);
 
     while(1)
     {
+
+
+        collection_victory_lap();
+        collection_victory_lap();
         go_stop();
-        lcd_print_top("Im slept");
-        lcd_print_bot("zzzzzzzzzzz");
+        simple_aim_n_shoot(AIM_LOCATION_ID_LEFT);
+        // // lcd_print_bot("Collect 1 Done");
+
+        // collection_victory_lap();
+        collection_victory_lap();
+        collection_victory_lap();
+        go_stop();
+        simple_aim_n_shoot(AIM_LOCATION_ID_CENTER);
+
+        // collection_victory_lap();
+        collection_victory_lap();
+        collection_victory_lap();
+        go_stop();
+        simple_aim_n_shoot(AIM_LOCATION_ID_RIGHT);
     }
 }
 

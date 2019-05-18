@@ -270,9 +270,16 @@ void aim_final(aim_location_t loc)
 
 void aim(aim_location_t loc)
 {
-	aim_pre(loc);
-	roomba(DIRECTION_ID_FRONT);
-	aim_final(loc);
+	if(AIM_LOCATION_ID_LEFT != loc)
+	{
+		aim_pre(loc);
+		roomba(DIRECTION_ID_FRONT);
+		aim_final(loc);
+	}
+	else
+	{
+		aim_pre(loc);
+	}
 }
 
 

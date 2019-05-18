@@ -166,25 +166,48 @@ char* deg_to_str(int n)
 
 void card_test()
 {
-	drive_vector_t vec;
-	vec.speed = 255;
-	char buf[32];
+	// drive_vector_t vec;
+	// vec.speed = 255;
+	// char buf[32];
 
-	// Serial.println("immacard");
-	lcd_print_top("Testing Cardinal");
+	// // Serial.println("immacard");
+	// lcd_print_top("Testing Cardinal");
 
-	for(int i = 0; i < 4; i++)
-	{
-		vec.degrees = 90*i;
-		go(vec);
-		sprintf(buf, "%d", vec.degrees);
-		lcd_print_bot(buf);
-		delay(200);
-		go_stop();
-		lcd_print_bot("Stop!");
-		delay(200);
-	}
-	delay(1000);
+	// for(int i = 0; i < 4; i++)
+	// {
+	// 	vec.degrees = 90*i;
+	// 	go(vec);
+	// 	sprintf(buf, "%d", vec.degrees);
+	// 	lcd_print_bot(buf);
+	// 	delay(100);
+	// 	go_stop();
+	// 	lcd_print_bot("Stop!");
+	// 	delay(100);
+	// }
+	// delay(1000);
+
+	go_right();
+	delay (100);
+
+
+// set_speed(WHEEL_FL, 255, 0);
+	// set_speed(WHEEL_FR, 255, 0);
+	// set_speed(WHEEL_BL, 255, 0);
+// 	set_speed(WHEEL_BR, 255, 0);
+	// wflush();
+
+	// delay(100);
+
+
+
+// 	set_speed(WHEEL_FL, 0, 0);
+// 	set_speed(WHEEL_FR, 0, 0);
+// 	set_speed(WHEEL_BL, 0, 0);
+// 	set_speed(WHEEL_BR, 0, 0);
+// 	wflush();
+
+// 	delay(2000);
+
 }
 
 void echo_test()
@@ -201,7 +224,7 @@ void echo_test()
 	int i = 0;
 
 	go_stop();
-
+/*
 	while(true)
 	{
 
@@ -226,9 +249,9 @@ void echo_test()
 
 	
 	delay(100);
-	}
+	}*/
 
-	/*while(true)
+	while(true)
 	{
 
 		i++;
@@ -251,22 +274,26 @@ void echo_test()
 
 	
 	delay(100);
-	}*/
+	}
 }
 
 void flywheel_test()
 {
 	// go_stop();
-	shoot_flywheel_left_stop();
-	shoot_conveyor_left_stop();
+	shoot_flywheel_both_stop();
+	shoot_conveyor_both_stop();
 	shoot_indexer_stop();
 	lcd_print_top("zzzz  :)  zzzzzzzzz");
 	delay(2000); 
-	shoot_flywheel_left_start();
-	shoot_conveyor_left_start();
+	shoot_flywheel_both_start();
+	shoot_conveyor_both_start();
 	shoot_indexer_start();
 	lcd_print_top("WHeeeeee           ");
-	delay(5000);
+
+	while(1)
+	{
+		shoot_indexer_spam_forward();
+	}
 
 }
 
@@ -317,10 +344,10 @@ void pcontrol_test_helper(float mm_target)
 
 	control_clear_result(&result_target);
 
-	vec_wall.speed = 30;
+	vec_wall.speed = 10;
 
 	args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
-	args_target.pk = 1.5f;
+	args_target.pk = 2.0f;
 	args_target.max_speed = 255;
 	args_target.abs_speed_dead_zone = 0;
 	args_target.abs_speed_boost_zone = 0;
@@ -340,14 +367,13 @@ void pcontrol_test_helper(float mm_target)
 		vec_result.speed = (int16_t) (control_treat_speed(
 			(float) vec_result.speed,
 			255,
-			5.0f,
+			20.0f,
 			120.0f
 			));
 
 		pcontrol_test_print_update(result_target.echo_avg, args_target.mm_target);
 
 		go(vec_result);
-
 		if(result_target.end_condition_count > 2)
 			break;
 	}
@@ -359,11 +385,11 @@ void pcontrol_test()
 {
 	lcd_print_top("Hug Right / P Fr");
 	// roomba(DIRECTION_ID_LEFT);
-	pcontrol_test_helper(100);
+	// pcontrol_test_helper(100);
+	// pcontrol_test_helper(200);
 	pcontrol_test_helper(200);
-	pcontrol_test_helper(300);
+	// pcontrol_test_helper(400);
 	pcontrol_test_helper(400);
-	pcontrol_test_helper(500);
 
 }
 

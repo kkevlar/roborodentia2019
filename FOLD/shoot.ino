@@ -20,48 +20,40 @@ void shoot_init(void)
     conveyor_left = AFMS_SHOOT.getMotor(MOTOR_SHEILD_PORT_CONVEYOR_L);
     conveyor_right = AFMS_SHOOT.getMotor(MOTOR_SHEILD_PORT_CONVEYOR_R);
 
-    flywheel_left.write(SHOOT_STOPPED_FLYWHEEL_LEFT);
+    // flywheel_left.write(SHOOT_STOPPED_FLYWHEEL_LEFT);
     // flywheel_right.write(SHOOT_STOPPED_FLYWHEEL_RIGHT);
     indexer->run(RELEASE);
     conveyor_left->run(RELEASE);
     conveyor_right->run(RELEASE);
 
-    // delay(2000);
-
-
-    /*lcd_print_bot("arming");
-    myESC.arm(); 
-
-    delay();
-
-    myESC.speed(1500);*/
+   
     
     delay(1000);
 
-    flywheel_left.attach(PIN_PWM_LEFT,1000,2000);
-    // flywheel_right.attach(PIN_PWM_RIGHT);
+    // flywheel_left.attach(PIN_PWM_LEFT,1000,2000);
+    flywheel_right.attach(PIN_PWM_RIGHT,1000,2000);
 
 
-    flywheel_left.write(500);
-    // flywheel_right.write(180);
+    // flywheel_left.write(500);
+    // flywheel_right.write(500);
 
-    delay(1000);
+    delay(2000);
 
     lcd_print_bot("0...");
 
 
-    flywheel_left.write(1000);
-    // flywheel_right.write(0);
+    // flywheel_left.write(1000);
+    // flywheel_right.write(1000);
 
-    delay(1000);
+    delay(2000);
 
 
     lcd_print_bot("90...");
 
     flywheel_left.write(2000);
+    // flywheel_right.write(2000);
 
     delay(500);
-    // flywheel_right.write(90);*/
 
 }
 
@@ -94,7 +86,7 @@ void shoot_set_speed(Adafruit_DCMotor* motor, int16_t speed)
 
 void shoot_flywheel_left_start(void)
 {
-    flywheel_left.write(SHOOT_SPEED_FLYWHEEL_LEFT);
+    // flywheel_left.write(SHOOT_SPEED_FLYWHEEL_LEFT);
 }
 
 void shoot_flywheel_right_start(void)
@@ -104,7 +96,7 @@ void shoot_flywheel_right_start(void)
 
 void shoot_flywheel_left_stop(void)
 {
-    flywheel_left.write(SHOOT_STOPPED_FLYWHEEL_LEFT);
+    // flywheel_left.write(SHOOT_STOPPED_FLYWHEEL_LEFT);
 }
 
 void shoot_flywheel_right_stop(void)
@@ -167,14 +159,32 @@ void shoot_indexer_stop(void)
     shoot_set_speed(indexer, 0);
 }
 
-void shoot_indexer_spam(void)
+void shoot_indexer_unjam(void)
+{
+    shoot_set_speed(indexer, SHOOT_SPEED_INDEXER_BACKWARD);
+}
+
+void shoot_indexer_spam_forward(void)
 {
     long l;
 
     l = millis();
-    l /= 1000;
+    l /= 75;
 
-    if(l % 2 == 0)
+    if(l % 10 == 0)
+        shoot_set_speed(indexer, SHOOT_SPEED_INDEXER_BACKWARD);
+    else
+        shoot_set_speed(indexer, SHOOT_SPEED_INDEXER_FORWARD);
+}
+
+void shoot_indexer_spam_reversed(void)
+{
+    long l;
+
+    l = millis();
+    l /= 75;
+
+    if(l % 10 == 0)
         shoot_set_speed(indexer, SHOOT_SPEED_INDEXER_FORWARD);
     else
         shoot_set_speed(indexer, SHOOT_SPEED_INDEXER_BACKWARD);
