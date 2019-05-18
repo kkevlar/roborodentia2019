@@ -166,25 +166,35 @@ char* deg_to_str(int n)
 
 void card_test()
 {
-	drive_vector_t vec;
-	vec.speed = 255;
-	char buf[32];
+	// drive_vector_t vec;
+	// vec.speed = 255;
+	// char buf[32];
 
-	// Serial.println("immacard");
-	lcd_print_top("Testing Cardinal");
+	// // Serial.println("immacard");
+	// lcd_print_top("Testing Cardinal");
 
-	for(int i = 0; i < 4; i++)
-	{
-		vec.degrees = 90*i;
-		go(vec);
-		sprintf(buf, "%d", vec.degrees);
-		lcd_print_bot(buf);
-		delay(200);
-		go_stop();
-		lcd_print_bot("Stop!");
-		delay(200);
-	}
-	delay(1000);
+	// for(int i = 0; i < 4; i++)
+	// {
+	// 	vec.degrees = 90*i;
+	// 	go(vec);
+	// 	sprintf(buf, "%d", vec.degrees);
+	// 	lcd_print_bot(buf);
+	// 	delay(200);
+	// 	go_stop();
+	// 	lcd_print_bot("Stop!");
+	// 	delay(200);
+	// }
+	// delay(1000);
+
+	// set_speed(WHEEL_FL,255,0);
+	// set_speed(WHEEL_FR,255,0);
+	// set_speed(WHEEL_BL,255,0);
+	// set_speed(WHEEL_BR,255,0);
+
+	go_right();
+
+
+	delay(100);
 }
 
 void echo_test()

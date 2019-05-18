@@ -12,6 +12,7 @@ void aim_init(void)
 	seed = analogRead(PIN_ANALOG_RANDOM);
 	delay(5);
 	seed *= analogRead(PIN_ANALOG_RANDOM);
+	seed += 7;
 	randomSeed(seed);
 
 	for(seed = 0; seed < AIM_LOCATION_COUNT; seed++)
@@ -21,8 +22,8 @@ void aim_init(void)
 }
 
 #define CLEAR_ALL_IS_MINS() for( \
-		z = AIM_LOCATION_SELECTION_RANDOM_MIN;\
-		z <= AIM_LOCATION_SELECTION_RANDOM_MAX;\
+		z = 0;\
+		z < AIM_LOCATION_COUNT;\
 		z++)\
 	{\
 		is_min[z] = 0;\
@@ -43,13 +44,13 @@ aim_location_t aim_select_location()
 	int z;
 
 	CLEAR_ALL_IS_MINS();
-	is_min[AIM_LOCATION_SELECTION_RANDOM_MIN] = 1;
-	min_tally = shoot_location_tally[AIM_LOCATION_SELECTION_RANDOM_MIN];
+	is_min[0] = 1;
+	min_tally = shoot_location_tally[0];
 	count_cups = 1;
 	
 	for(
-		i = AIM_LOCATION_SELECTION_RANDOM_MIN+1;
-		i <= AIM_LOCATION_SELECTION_RANDOM_MAX;
+		i = 0;
+		i < AIM_LOCATION_COUNT;
 		i++)
 	{
 
@@ -71,8 +72,8 @@ aim_location_t aim_select_location()
 	}
 
 	z = arduinoRandom(count_cups);
-	for( i = AIM_LOCATION_SELECTION_RANDOM_MIN;
-		i <= AIM_LOCATION_SELECTION_RANDOM_MAX;
+	for( i = 0;
+		i < AIM_LOCATION_COUNT;
 		 i++)
 	{
 		z -= TRUE_TO_ONE(is_min[i]);
@@ -81,7 +82,7 @@ aim_location_t aim_select_location()
 	}
 
 	shoot_location_tally[i]++;
-	return i;
+	return i + AIM_LOCATION_SELECTION_RANDOM_MIN;
 }
 
 
@@ -108,14 +109,14 @@ void aim_position_pre_roomba(direction_t dir_target, float mm_wall, float mm_tar
     args_wall.max_speed = 255;
     args_wall.abs_speed_dead_zone = 0;
     args_wall.abs_speed_boost_zone = 0;
-    args_wall.echo_data_buf_count = 3;
+    args_wall.echo_data_buf_count = 4;
 
     args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
     args_target.pk = AIM_PRE_TARGET_P_CONSTANT;
     args_target.max_speed = 255;
     args_target.abs_speed_dead_zone = 0;
     args_target.abs_speed_boost_zone = 0;
-    args_target.echo_data_buf_count = 1;
+    args_target.echo_data_buf_count = 4;
 
     while(1)
     {
@@ -229,7 +230,7 @@ void aim_position_final_helper(direction_t dir_target, float mm_target)
 
 		go(vec_result);
 
-		if(result_target.end_condition_count > 2)
+		if(result_target.end_condition_count > 4)
 			break;
 		delay(AIM_FINAL_IN_BETWEEN_ECHO_TESTS_DELAY_MS);
 	}
@@ -268,11 +269,44 @@ void aim_final(aim_location_t loc)
 		aim_final_right();
 }
 
+void janky()
+{
+	drive_vector_t vec;
+	vec.degrees = 170;
+	vec.speed =100;
+
+	go(vec);
+	while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_RIGHT)) < 720)
+	{
+		delay(10);
+	}
+}
+
+
 void aim(aim_location_t loc)
 {
-	aim_pre(loc);
-	roomba(DIRECTION_ID_FRONT);
-	aim_final(loc);
+	if(AIM_LOCATION_ID_CENTER == loc || AIM_LOCATION_ID_RIGHT == loc)
+	{
+		aim_pre(loc);
+		roomba(DIRECTION_ID_FRONT);
+		aim_final(loc);
+	}
+	else if (AIM_LOCATION_ID_LEFT == loc)
+	{
+		aim_pre(loc);
+		roomba(DIRECTION_ID_FRONT);
+		janky();
+	}
+	else
+	{
+		go_back();
+		delay(200);
+		go_stop();
+		while(1)
+		{
+
+		}
+	}
 }
 
 

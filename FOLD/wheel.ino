@@ -1,7 +1,8 @@
 
 #include "wheel.h"
 
-Adafruit_MotorShield AFMS_MOTOR(MOTOR_SHEILD_ADDRESS_WHEEL); // Rightmost jumper closed
+Adafruit_MotorShield AFMS_LEFT(MOTOR_SHEILD_ADDRESS_LEFT); // Rightmost jumper closed
+Adafruit_MotorShield AFMS_RIGHT(MOTOR_SHEILD_ADDRESS_RIGHT); // Rightmost jumper closed
 
 uint8_t wheel_has_init = 0;
 Adafruit_DCMotor *fl;
@@ -13,12 +14,13 @@ void wheel_init(void)
 {
     if(!wheel_has_init)
     {
-        AFMS_MOTOR.begin();  // create with the default frequency 1.6KHz
+        AFMS_LEFT.begin();  // create with the default frequency 1.6KHz
+        AFMS_RIGHT.begin();  // create with the default frequency 1.6KHz
        
-        fl = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_FL);
-        fr = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_FR);
-        bl = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_BL);
-        br = AFMS_MOTOR.getMotor(MOTOR_SHEILD_PORT_BR);
+        fl = AFMS_LEFT.getMotor(MOTOR_SHEILD_PORT_FL);
+        bl = AFMS_LEFT.getMotor(MOTOR_SHEILD_PORT_BL);
+        fr = AFMS_RIGHT.getMotor(MOTOR_SHEILD_PORT_FR);
+        br = AFMS_RIGHT.getMotor(MOTOR_SHEILD_PORT_BR);
         
         fl->run(RELEASE);
         fr->run(RELEASE);

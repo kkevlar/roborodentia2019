@@ -35,14 +35,14 @@ void position_for_collection(direction_t dir_wall, direction_t dir_target, float
     args_wall.max_speed = 255;
     args_wall.abs_speed_dead_zone = 0;
     args_wall.abs_speed_boost_zone = 0;
-    args_wall.echo_data_buf_count = 1;
+    args_wall.echo_data_buf_count = 2;
 
     args_target.pin_ultrasonic = direction_to_echo_pin(dir_target);
     args_target.pk = COLLECT_PRE_TARGET_P_CONSTANT;
     args_target.max_speed = 255;
     args_target.abs_speed_dead_zone = 0;
     args_target.abs_speed_boost_zone = 0;
-    args_target.echo_data_buf_count = 1;
+    args_target.echo_data_buf_count = 2;
 
     while(1)
     {
@@ -101,32 +101,32 @@ void backglide()
     drive_vector_t vec;
     vec.speed = 255;
     vec.degrees = 190;
-    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 550)
     {
-        delay(20);
+        delay(5);
         go(vec);
     }
-    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 550)
     {
-        delay(20);
+        delay(5);
 
         go(vec);
     }
-    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 550)
     {
-        delay(20);
+        delay(5);
 
         go(vec);
     }
-    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 550)
     {
-        delay(20);
+        delay(5);
 
         go(vec);
     }
-    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 625)
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_LEFT)) > 550)
     {
-        delay(20);
+        delay(5);
 
         go(vec);
     }
@@ -327,9 +327,9 @@ void collect_left()
 
 void collection_victory_lap()
 {
-    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_RIGHT)) > 700)
+    while(echo_test_mm(direction_to_echo_pin(DIRECTION_ID_RIGHT)) > 710)
     {
-        delay(20);
+        delay(5);
         go_right();
     }
     collect_right();

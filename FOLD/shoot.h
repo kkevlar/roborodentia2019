@@ -25,6 +25,8 @@ void shoot_conveyor_right_stop();
 void shoot_conveyor_both_stop();
 void shoot_indexer_start();
 void shoot_indexer_stop();
-void shoot_indexer_unjam();
+void shoot_indexer_spam_forward();
+void shoot_indexer_spam_reversed();
+void shoot_indexer_spam(void);
 
 #endif
