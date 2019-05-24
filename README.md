@@ -2,9 +2,9 @@
 
 Autonomous drive code for **Fold**, the second place robot for Cal Poly's annual autonomous robotics competition.
 
-[Roborodentia](http://roborodentia.calpoly.edu/)
-
-[Game Rules](https://docs.google.com/document/d/1yxtSJe29Ct2Tb8KmzMLPe1f2cj2fBtazdUNPZ5FT0Tg/edit)
+[Roborodentia Web Page](http://roborodentia.calpoly.edu/)
+[Game Rules (2019)](https://docs.google.com/document/d/1yxtSJe29Ct2Tb8KmzMLPe1f2cj2fBtazdUNPZ5FT0Tg/edit)
+[Roborodenia 2018 (first place)](https://github.com/kkevlar/roborodentia2018)
 
 Authors: Kevin Kellar and Derick Louie
 
